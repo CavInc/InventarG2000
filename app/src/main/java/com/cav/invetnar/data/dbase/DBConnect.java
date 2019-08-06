@@ -3,6 +3,10 @@ package com.cav.invetnar.data.dbase;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.cav.invetnar.data.models.NomenclatureModel;
+
+import java.util.ArrayList;
+
 /**
  * Created by cav on 04.08.19.
  */
@@ -25,5 +29,13 @@ public class DBConnect {
             database.close();
         }
     }
+
+    // список товаров
+    public ArrayList<NomenclatureModel> getNomeclature(){
+        ArrayList<NomenclatureModel> rec = new ArrayList<>();
+
+        return rec;
+    }
+
 
 }
