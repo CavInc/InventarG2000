@@ -14,6 +14,7 @@ import com.cav.invetnar.ui.fragments.MainMenuFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +48,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+        Fragment currentFragment =  getSupportFragmentManager().findFragmentByTag("MM");
+        if (currentFragment == null) {
+            viewFragment(new MainMenuFragment(),"MM");
+            return;
+        }
         super.onBackPressed();
     }
 }

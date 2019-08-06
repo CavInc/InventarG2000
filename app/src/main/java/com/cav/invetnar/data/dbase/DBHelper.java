@@ -35,7 +35,8 @@ public class DBHelper extends SQLiteOpenHelper {
         if (oldVersion < 1) {
             db.execSQL("create table "+TOVAR+"(" +
                     "id1c integer not null," +
-                    "name_card text)");
+                    "name_card text," +
+                    "primary key (id1c))");
 
             db.execSQL("create table "+SKLAD+" (" +
                     "id integer not null," +

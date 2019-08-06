@@ -14,6 +14,8 @@ public class DataManager {
     private Context mContext;
 
     private DBConnect mDB;
+    private PreManager mPreManager;
+    private int mTypeScanned;
 
     public static DataManager getInstance() {
         if (INSTANCE==null){
@@ -25,13 +27,26 @@ public class DataManager {
     public DataManager() {
         mContext = App.getContext();
         mDB = new DBConnect(mContext);
+        mPreManager = new PreManager();
     }
 
     public Context getContext() {
         return mContext;
     }
 
+    public PreManager getPreManager() {
+        return mPreManager;
+    }
+
     public DBConnect getDB() {
         return mDB;
+    }
+
+    public void setTypeScanned(int typeScanned) {
+        mTypeScanned = typeScanned;
+    }
+
+    public int getTypeScanned() {
+        return mTypeScanned;
     }
 }

@@ -14,11 +14,13 @@
         android:layout_height="wrap_content"/>
 
     <Button
+        android:id="@+id/main_new_scann_pash"
         android:text="Новое сканирование расход"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <Button
+        android:id="@+id/main_store_scann"
         android:text="Список сканирований"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

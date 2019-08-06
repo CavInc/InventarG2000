@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.cav.invetnar.R;
 import com.cav.invetnar.data.managers.DataManager;
 import com.cav.invetnar.ui.activies.MainActivity;
+import com.cav.invetnar.utils.ConstantManager;
 
 /**
  * Created by cav on 04.08.19.
@@ -38,6 +39,11 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.main_new_scann_prix:
+                mDataManager.setTypeScanned(ConstantManager.SCANNED_IN);
+                ((MainActivity) getActivity()).viewFragment(new ScannerFragment(),"SCANER");
+                break;
+            case R.id.main_new_scann_pash:
+                mDataManager.setTypeScanned(ConstantManager.SACNNED_OUT);
                 ((MainActivity) getActivity()).viewFragment(new ScannerFragment(),"SCANER");
                 break;
         }
