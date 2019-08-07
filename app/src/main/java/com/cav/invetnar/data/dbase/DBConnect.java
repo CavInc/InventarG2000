@@ -89,4 +89,9 @@ public class DBConnect {
     public SQLiteDatabase getDatabase() {
         return database;
     }
+
+    // ищем название по коду
+    public String getTovarName(int code1c) {
+        return null;
+    }
 }

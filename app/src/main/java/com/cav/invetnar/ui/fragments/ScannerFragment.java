@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ import java.util.List;
  */
 
 public class ScannerFragment extends Fragment{
+    private static final String TAG = "SF";
     private DataManager mDataManager;
 
     private EditText mBarCode;
@@ -125,6 +127,9 @@ public class ScannerFragment extends Fragment{
     public void onResume() {
         super.onResume();
         updateUI();
+        if (mDataManager.getPreManager().isUseCamera()) {
+            startCamera();
+        }
     }
 
     private void updateUI() {
@@ -197,8 +202,12 @@ public class ScannerFragment extends Fragment{
     private boolean workingBarcode(TextView textView) {
         mBar = textView.getText().toString();
         if (mBar.length() == 0) return true;
+        Log.d(TAG,mBar);
+        String[] sm = mBar.split(";");
 
+        if (scannedType == ConstantManager.SCANNED_IN) {
 
+        }
 
         mBarCode.setText("");
         return false;

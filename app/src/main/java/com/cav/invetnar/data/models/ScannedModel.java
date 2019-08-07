@@ -13,10 +13,11 @@ public class ScannedModel {
     private int mCode1C;
     private int mType1C;
     private String  mOwner;
+    private String mCardName;
 
     private int mScannedType;
 
-    public ScannedModel(int scannedID, int orderNum, int pos, int quantity, int code1C, int type1C, String owner) {
+    public ScannedModel(int scannedID, int orderNum, int pos, int quantity, int code1C, int type1C, String owner,int scannedType) {
         mScannedID = scannedID;
         mOrderNum = orderNum;
         mPos = pos;
@@ -24,13 +25,15 @@ public class ScannedModel {
         mCode1C = code1C;
         mType1C = type1C;
         mOwner = owner;
+        mScannedType = scannedType;
     }
 
-    public ScannedModel(int scannedID, int quantity, int code1C, int type1C) {
+    public ScannedModel(int scannedID, int quantity, int code1C, int type1C,int scannedType) {
         mScannedID = scannedID;
         mQuantity = quantity;
         mCode1C = code1C;
         mType1C = type1C;
+        mScannedType = scannedType;
     }
 
     public int getScannedID() {
@@ -63,5 +66,9 @@ public class ScannedModel {
 
     public int getScannedType() {
         return mScannedType;
+    }
+
+    public String getCardName() {
+        return mCardName;
     }
 }
