@@ -20,6 +20,7 @@ public class DataManager {
     private PreManager mPreManager;
     private int mTypeScanned;
     private String mLastError;
+    private boolean mScannedNew;
 
     public static DataManager getInstance() {
         if (INSTANCE==null){
@@ -78,5 +79,9 @@ public class DataManager {
 
     public void setLastError(String lastError) {
         mLastError = lastError;
+    }
+
+    public boolean getScannedNew() {
+        return mScannedNew;
     }
 }

@@ -11,6 +11,7 @@ import com.cav.invetnar.utils.App;
 public class PreManager {
 
     private static final String CODE_FILE = "CODE_FILE";
+    private static final String CURRENT_IN = "CURRENT_IN";
     private SharedPreferences mSharedPreferences;
 
     public PreManager(){
@@ -38,6 +39,17 @@ public class PreManager {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putInt(CODE_FILE,code);
         editor.apply();
-
     }
+
+    // номер заказа приход
+    public int getCurrentNumIn(){
+        return mSharedPreferences.getInt(CURRENT_IN,0);
+    }
+
+    public void setCurrentNumIn(int current) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putInt(CURRENT_IN,current);
+        editor.apply();
+    }
+
 }

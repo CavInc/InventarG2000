@@ -7,9 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
+import com.cav.invetnar.R;
 import com.cav.invetnar.data.models.ScannedModel;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +25,6 @@ public class ScannedAdapter extends ArrayAdapter<ScannedModel>{
 
     private LayoutInflater mInflater;
     private int resLayout;
-
 
     public ScannedAdapter(@NonNull Context context, int resource, @NonNull List<ScannedModel> objects) {
         super(context, resource, objects);
@@ -37,15 +41,41 @@ public class ScannedAdapter extends ArrayAdapter<ScannedModel>{
             row = mInflater.inflate(resLayout, parent, false);
             holder = new ViewHolder();
 
+            holder.mOrder = row.findViewById(R.id.scanned_item_order);
+            holder.mQuantity = row.findViewById(R.id.scanned_item_quantity);
+            holder.mPos = row.findViewById(R.id.scanned_item_position);
+            holder.mCode1C = row.findViewById(R.id.scanned_item_code1c);
+            holder.mType1C = row.findViewById(R.id.scanned_item_type1c);
+            holder.mOwner = row.findViewById(R.id.scanned_item_owner);
+
             row.setTag(holder);
         }else{
             holder = (ViewHolder)row.getTag();
         }
 
+        ScannedModel record = getItem(position);
+        holder.mOrder.setText(String.valueOf(record.getOrderNum()));
+        holder.mType1C.setText(String.valueOf(record.getType1C()));
+        holder.mCode1C.setText(String.valueOf(record.getCode1C()));
+        holder.mQuantity.setText(String.valueOf(record.getQuantity()));
+        holder.mPos.setText(String.valueOf(record.getPos()));
+        holder.mOwner.setText(record.getOwner());
+
         return row;
     }
 
+    public void setData(ArrayList<ScannedModel> data) {
+        this.clear();
+        this.addAll(data);
+    }
+
     private class ViewHolder {
+        private TextView mOrder;
+        private TextView mPos;
+        private TextView mQuantity;
+        private TextView mCode1C;
+        private TextView mType1C;
+        private TextView mOwner;
 
     }
 }

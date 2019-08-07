@@ -54,12 +54,15 @@ public class ScannerFragment extends Fragment{
     private FrameLayout mFrameLayout;
     private int scannedType;
     private String mBar;
+    private boolean scannedNew;
+    private int currentScannedNum;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDataManager = DataManager.getInstance();
         scannedType = mDataManager.getTypeScanned();
+        scannedNew = mDataManager.getScannedNew();
         setHasOptionsMenu (true);
     }
 
@@ -75,6 +78,12 @@ public class ScannerFragment extends Fragment{
         mListView = view.findViewById(R.id.scanned_lv);
 
         mFrameLayout = view.findViewById(R.id.barcode_frame);
+
+        if (scannedNew) {
+            currentScannedNum = mDataManager.getPreManager().getCurrentNumIn();
+            currentScannedNum += 1;
+            mDataManager.getPreManager().setCurrentNumIn(currentScannedNum);
+        }
 
         return view;
     }
@@ -128,6 +137,7 @@ public class ScannerFragment extends Fragment{
         super.onResume();
         updateUI();
         if (mDataManager.getPreManager().isUseCamera()) {
+            mFrameLayout.setVisibility(View.VISIBLE);
             startCamera();
         }
     }
@@ -135,13 +145,14 @@ public class ScannerFragment extends Fragment{
     private void updateUI() {
         ArrayList<ScannedModel> data = new ArrayList<>();
         if (scannedType == ConstantManager.SCANNED_IN) {
-            data = mDataManager.getDB().getScannedPrixod(-1,scannedType);
+            data = mDataManager.getDB().getScannedPrixod(currentScannedNum,scannedType);
         }
 
         if (mAdapter == null) {
             mAdapter = new ScannedAdapter(getActivity(),R.layout.scanned_item,data);
             mListView.setAdapter(mAdapter);
         } else {
+            mAdapter.setData(data);
             mAdapter.notifyDataSetChanged();
         }
     }
@@ -204,9 +215,23 @@ public class ScannerFragment extends Fragment{
         if (mBar.length() == 0) return true;
         Log.d(TAG,mBar);
         String[] sm = mBar.split(";");
+        int order = Integer.valueOf(sm[0]);
+        int countOrder = Integer.valueOf(sm[1]); // заказано в наряде
+        int quantity = Integer.valueOf(sm[2]);
+        int code1c = Integer.valueOf(sm[3]);
+        int type1c = Integer.valueOf(sm[4]);
+        String ownwer = sm[5];
+
+        // тут поиск названия
 
         if (scannedType == ConstantManager.SCANNED_IN) {
+            // записываем приход
+            mDataManager.getDB().addInRecord(currentScannedNum,order,countOrder,quantity,code1c,type1c,ownwer);
+            updateUI();
+        }
 
+        if (scannedType == ConstantManager.SACNNED_OUT) {
+            // записываем расход с запросом количества
         }
 
         mBarCode.setText("");

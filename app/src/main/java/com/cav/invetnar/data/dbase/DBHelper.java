@@ -53,7 +53,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     "quantity integer," +
                     "code1c integer," +
                     "type1c integer," +
-                    "owner_name text)");
+                    "owner_name text," +
+                    "primary key (scaned_id,order_num,position,quantity,code1c))");
 
             db.execSQL("create table "+SCANNER_RASH+"(" +
                     "scanned_id integer not null," +
