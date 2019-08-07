@@ -31,6 +31,8 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_menu_fragment,parent,false);
         view.findViewById(R.id.main_new_scann_prix).setOnClickListener(this);
+        view.findViewById(R.id.main_new_scann_pash).setOnClickListener(this);
+        view.findViewById(R.id.main_store_scann).setOnClickListener(this);;
 
         return view;
     }
@@ -45,6 +47,9 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
             case R.id.main_new_scann_pash:
                 mDataManager.setTypeScanned(ConstantManager.SACNNED_OUT);
                 ((MainActivity) getActivity()).viewFragment(new ScannerFragment(),"SCANER");
+                break;
+            case R.id.main_store_scann:
+                ((MainActivity) getActivity()).viewFragment(new ScannedFileFragment(),"STORE");
                 break;
         }
     }

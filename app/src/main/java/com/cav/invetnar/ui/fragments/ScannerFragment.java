@@ -22,6 +22,7 @@ import com.cav.invetnar.R;
 import com.cav.invetnar.data.managers.DataManager;
 import com.cav.invetnar.data.models.ScannedModel;
 import com.cav.invetnar.ui.adapters.ScannedAdapter;
+import com.cav.invetnar.utils.ConstantManager;
 import com.cav.invetnar.utils.Func;
 import com.google.zxing.ResultPoint;
 import com.journeyapps.barcodescanner.BarcodeCallback;
@@ -50,6 +51,7 @@ public class ScannerFragment extends Fragment{
 
     private FrameLayout mFrameLayout;
     private int scannedType;
+    private String mBar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,7 +115,7 @@ public class ScannerFragment extends Fragment{
                     (keyEvent.getAction() == KeyEvent.ACTION_DOWN
                             && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER
                             && keyEvent.getRepeatCount() == 0)) {
-
+                return workingBarcode(v);
             }
             return false;
         }
@@ -127,6 +129,10 @@ public class ScannerFragment extends Fragment{
 
     private void updateUI() {
         ArrayList<ScannedModel> data = new ArrayList<>();
+        if (scannedType == ConstantManager.SCANNED_IN) {
+            data = mDataManager.getDB().getScannedPrixod(-1,scannedType);
+        }
+
         if (mAdapter == null) {
             mAdapter = new ScannedAdapter(getActivity(),R.layout.scanned_item,data);
             mListView.setAdapter(mAdapter);
@@ -178,7 +184,7 @@ public class ScannerFragment extends Fragment{
                 //mStartScan.setVisibility(View.VISIBLE);
                 Func.playMessage(getActivity());
                 releaceCamera();
-                //workingBarcode(mBarCode);
+                workingBarcode(mBarCode);
             }
         }
 
@@ -188,5 +194,14 @@ public class ScannerFragment extends Fragment{
         }
     };
 
+    private boolean workingBarcode(TextView textView) {
+        mBar = textView.getText().toString();
+        if (mBar.length() == 0) return true;
+
+
+
+        mBarCode.setText("");
+        return false;
+    }
 
 }

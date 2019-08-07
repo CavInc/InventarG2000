@@ -1,9 +1,12 @@
 package com.cav.invetnar.data.managers;
 
 import android.content.Context;
+import android.os.Environment;
 
 import com.cav.invetnar.data.dbase.DBConnect;
 import com.cav.invetnar.utils.App;
+
+import java.io.File;
 
 /**
  * Created by cav on 04.08.19.
@@ -48,5 +51,18 @@ public class DataManager {
 
     public int getTypeScanned() {
         return mTypeScanned;
+    }
+
+    // возвращает путь к локальной папки приложения
+    public String getStorageAppPath(){
+        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+            return null;
+        File path = new File (Environment.getExternalStorageDirectory(), "Greens2000"); //AmusementPark
+        if (! path.exists()) {
+            if (!path.mkdirs()){
+                return null;
+            }
+        }
+        return path.getPath();
     }
 }

@@ -14,6 +14,7 @@
         android:layout_height="wrap_content">
         <FrameLayout
             android:id="@+id/barcode_frame"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="@dimen/scanned_heigth">
             <com.journeyapps.barcodescanner.CompoundBarcodeView
@@ -25,10 +26,9 @@
         <EditText
             android:id="@+id/barcode_et"
             android:hint="Штрих-код"
-            android:inputType="numberDecimal"
             android:imeOptions="actionDone"
             android:lines="1"
-            android:maxLength="13"
+            android:maxLength="56"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:layout_width="match_parent"

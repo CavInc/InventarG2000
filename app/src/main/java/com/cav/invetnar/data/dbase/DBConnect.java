@@ -1,5 +1,6 @@
 package com.cav.invetnar.data.dbase;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -48,9 +49,17 @@ public class DBConnect {
         return rec;
     }
 
-    // список сканирования приход
+    public void addNomenclature(int code1c, String name){
+        open();
+        ContentValues values = new ContentValues();
+        values.put("id1c",code1c);
+        values.put("name_card",name);
+        database.insertWithOnConflict(DBHelper.TOVAR,null,values,SQLiteDatabase.CONFLICT_REPLACE);
+        close();
+    }
 
-    public ArrayList<ScannedModel> getScannedPrixod(int scanned_id){
+    // список сканирования приход
+    public ArrayList<ScannedModel> getScannedPrixod(int scannedId, int scannedType){
         ArrayList<ScannedModel> rec = new ArrayList<>();
 
         return rec;
