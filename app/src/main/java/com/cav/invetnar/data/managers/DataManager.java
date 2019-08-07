@@ -19,6 +19,7 @@ public class DataManager {
     private DBConnect mDB;
     private PreManager mPreManager;
     private int mTypeScanned;
+    private String mLastError;
 
     public static DataManager getInstance() {
         if (INSTANCE==null){
@@ -64,5 +65,18 @@ public class DataManager {
             }
         }
         return path.getPath();
+    }
+
+    /* Checks if external storage is available for read and write */
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    public void setLastError(String lastError) {
+        mLastError = lastError;
     }
 }

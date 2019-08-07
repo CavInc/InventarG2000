@@ -6,4 +6,7 @@
     <item
         android:id="@+id/main_menu_tovar"
         android:title="Справочник номенклатуры"/>
+    <item
+        android:id="@+id/main_setting"
+        android:title="Настройки"/>
 </menu>

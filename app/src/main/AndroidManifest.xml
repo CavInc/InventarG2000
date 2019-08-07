@@ -14,14 +14,18 @@
         android:supportsRtl="true"
         android:name=".utils.App"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activies.MainActivity">
+        <activity android:name=".ui.activies.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activies.NomenclatureActivity"/>
+        <activity android:name=".ui.activies.NomenclatureActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activies.PreferenseActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

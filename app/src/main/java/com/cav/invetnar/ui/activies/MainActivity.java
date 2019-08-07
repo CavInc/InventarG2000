@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import com.cav.invetnar.R;
 import com.cav.invetnar.data.managers.DataManager;
 import com.cav.invetnar.ui.fragments.MainMenuFragment;
+import com.cav.invetnar.utils.WorkInFile;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -61,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
         }
         if (item.getItemId() == R.id.main_menu_load) {
             openLocalFile();
+        }
+        if (item.getItemId() == R.id.main_setting) {
+            startActivity(new Intent(this,PreferenseActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -110,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
                 Uri uri = data.getData();
                 System.out.println(uri);
                 File fname = copyUriToLocal(uri);
+                WorkInFile workInFile = new WorkInFile(mDataManager.getPreManager().getCodeFile());
+                int ret_flg = workInFile.loadProductFile(fname.getName(),mDataManager);
 
             }
         }

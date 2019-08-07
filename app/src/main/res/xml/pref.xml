@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Настройки загрузки">
+
+        <EditTextPreference
+            android:defaultValue=";"
+            android:key="load_delim"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Разделитель полей" />
+        <ListPreference
+            android:key="file_code"
+            android:title="Кодировка файла обмена"
+            android:entries="@array/code_entries"
+            android:entryValues="@array/code_entry_values"
+            android:defaultValue="WIN-1251"
+            android:summary=""/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Сканнирование">
+        <CheckBoxPreference
+            android:key="use_camera"
+            android:title="Использовать камеру первым"/>
+    </PreferenceCategory>
+</PreferenceScreen>

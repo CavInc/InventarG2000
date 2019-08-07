@@ -72,5 +72,10 @@ public class DBConnect {
     }
 
 
-
+    // удаляем таблицу товар
+    public void deleteTovar() {
+        open();
+        database.delete(DBHelper.TOVAR,null,null);
+        close();
+    }
 }
