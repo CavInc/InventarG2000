@@ -48,7 +48,7 @@ public class TovarAdapter extends ArrayAdapter<NomenclatureModel> {
 
         NomenclatureModel record = getItem(position);
 
-        holder.mArticul.setText(record.getCode1C());
+        holder.mArticul.setText(String.valueOf(record.getCode1C()));
         holder.mName.setText(record.getName());
 
         return row;

@@ -58,6 +58,13 @@ public class DBConnect {
         close();
     }
 
+    public void addNomenclatureMultiple(int code1c,String name) {
+        ContentValues values = new ContentValues();
+        values.put("id1c",code1c);
+        values.put("name_card",name);
+        database.insertWithOnConflict(DBHelper.TOVAR,null,values,SQLiteDatabase.CONFLICT_REPLACE);
+    }
+
     // список сканирования приход
     public ArrayList<ScannedModel> getScannedPrixod(int scannedId, int scannedType){
         ArrayList<ScannedModel> rec = new ArrayList<>();
@@ -77,5 +84,9 @@ public class DBConnect {
         open();
         database.delete(DBHelper.TOVAR,null,null);
         close();
+    }
+
+    public SQLiteDatabase getDatabase() {
+        return database;
     }
 }

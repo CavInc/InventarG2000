@@ -1,6 +1,7 @@
 package com.cav.invetnar.utils;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.cav.invetnar.data.managers.DataManager;
@@ -66,6 +67,10 @@ public class WorkInFile {
             String[] lm;
             boolean firstLine = true;
 
+            manager.getDB().open();
+            SQLiteDatabase db = manager.getDB().getDatabase();
+            db.beginTransaction();
+
             // читаем содержимое
             try {
                 while ((str = br.readLine()) != null) {
@@ -75,11 +80,22 @@ public class WorkInFile {
                         str = str.replaceAll(delim+delim,delim+" "+delim);
                         str = str.replaceAll(delim+delim,delim+" "+delim);
 
+                        // проверяем строку и если срока первая и с названием полей то заполняем FileFieldModel
+                        if (firstLine) {
+                            checkFirstLine(str,delim);
+                            firstLine = false;
+                            continue;
+                        }
+
+                        lm = str.split(delim);
+                        manager.getDB().addNomenclatureMultiple(Integer.valueOf(lm[1]),lm[0]);
                     }
                 }
+                db.setTransactionSuccessful();
             } finally {
-
+                db.endTransaction();
             }
+            manager.getDB().close();
             br.close();
             stFile.delete(); // удалили файл загрузки
         } catch (Exception e){
@@ -93,5 +109,13 @@ public class WorkInFile {
         }
 
         return ConstantManager.RET_OK;
+    }
+
+    private boolean checkFirstLine(String str,String delim) {
+        //Номенклатура;код1ссокр
+        if ((str.indexOf("Номенклатура") != -1) | (str.indexOf("код1ссокр") != -1) ) {
+            return true;
+        }
+        return false;
     }
 }
