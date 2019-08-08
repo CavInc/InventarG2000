@@ -24,6 +24,8 @@
             </com.journeyapps.barcodescanner.CompoundBarcodeView>
             <Button
                 android:id="@+id/rescan_bt"
+                android:background="@drawable/button_border_bg"
+                android:textColor="@color/app_gray"
                 android:text="Пересканировать"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
