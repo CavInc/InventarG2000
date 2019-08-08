@@ -17,7 +17,7 @@ public class ScannedModel {
 
     private int mScannedType;
 
-    public ScannedModel(int scannedID, int orderNum, int pos, int quantity, int code1C, int type1C, String owner,int scannedType) {
+    public ScannedModel(int scannedID, int orderNum, int pos, int quantity, int code1C, int type1C, String owner,int scannedType,String cardName) {
         mScannedID = scannedID;
         mOrderNum = orderNum;
         mPos = pos;
@@ -26,6 +26,7 @@ public class ScannedModel {
         mType1C = type1C;
         mOwner = owner;
         mScannedType = scannedType;
+        mCardName = cardName;
     }
 
     public ScannedModel(int scannedID, int quantity, int code1C, int type1C,int scannedType) {

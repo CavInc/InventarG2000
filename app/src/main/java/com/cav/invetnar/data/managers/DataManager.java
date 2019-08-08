@@ -84,4 +84,8 @@ public class DataManager {
     public boolean getScannedNew() {
         return mScannedNew;
     }
+
+    public void setScannedNew(boolean scannedNew) {
+        mScannedNew = scannedNew;
+    }
 }

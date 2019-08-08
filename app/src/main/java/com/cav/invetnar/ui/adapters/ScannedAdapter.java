@@ -47,6 +47,7 @@ public class ScannedAdapter extends ArrayAdapter<ScannedModel>{
             holder.mCode1C = row.findViewById(R.id.scanned_item_code1c);
             holder.mType1C = row.findViewById(R.id.scanned_item_type1c);
             holder.mOwner = row.findViewById(R.id.scanned_item_owner);
+            holder.mCardName = row.findViewById(R.id.scanned_item_cardname);
 
             row.setTag(holder);
         }else{
@@ -60,6 +61,7 @@ public class ScannedAdapter extends ArrayAdapter<ScannedModel>{
         holder.mQuantity.setText(String.valueOf(record.getQuantity()));
         holder.mPos.setText(String.valueOf(record.getPos()));
         holder.mOwner.setText(record.getOwner());
+        holder.mCardName.setText(record.getCardName());
 
         return row;
     }
@@ -76,6 +78,6 @@ public class ScannedAdapter extends ArrayAdapter<ScannedModel>{
         private TextView mCode1C;
         private TextView mType1C;
         private TextView mOwner;
-
+        private TextView mCardName;
     }
 }

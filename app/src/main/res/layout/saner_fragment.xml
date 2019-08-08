@@ -22,6 +22,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             </com.journeyapps.barcodescanner.CompoundBarcodeView>
+            <Button
+                android:id="@+id/rescan_bt"
+                android:text="Пересканировать"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </FrameLayout>
         <EditText
             android:id="@+id/barcode_et"

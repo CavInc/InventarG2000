@@ -42,6 +42,7 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()){
             case R.id.main_new_scann_prix:
                 mDataManager.setTypeScanned(ConstantManager.SCANNED_IN);
+                mDataManager.setScannedNew(true);
                 ((MainActivity) getActivity()).viewFragment(new ScannerFragment(),"SCANER");
                 break;
             case R.id.main_new_scann_pash:
@@ -49,6 +50,7 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
                 ((MainActivity) getActivity()).viewFragment(new ScannerFragment(),"SCANER");
                 break;
             case R.id.main_store_scann:
+                mDataManager.setScannedNew(false);
                 ((MainActivity) getActivity()).viewFragment(new ScannedFileFragment(),"STORE");
                 break;
         }

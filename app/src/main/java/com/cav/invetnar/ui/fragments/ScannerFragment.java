@@ -232,6 +232,8 @@ public class ScannerFragment extends Fragment{
 
         if (scannedType == ConstantManager.SACNNED_OUT) {
             // записываем расход с запросом количества
+            mDataManager.getDB().addOutRecord(currentScannedNum,order,code1c,type1c,quantity);
+            updateUI();
         }
 
         mBarCode.setText("");

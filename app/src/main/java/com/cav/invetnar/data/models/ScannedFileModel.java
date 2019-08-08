@@ -9,6 +9,17 @@ public class ScannedFileModel {
     private int mType; // тип сканирования приход/расход
     private String mDateFile; // дата сканирования
 
+    public ScannedFileModel(int id, int type, String dateFile) {
+        mId = id;
+        mType = type;
+        mDateFile = dateFile;
+    }
+
+    public ScannedFileModel(int id, int type) {
+        mId = id;
+        mType = type;
+    }
+
     public int getId() {
         return mId;
     }

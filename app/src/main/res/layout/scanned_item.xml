@@ -48,6 +48,13 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/scanned_item_cardname"
+        tools:text="VS"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
         tools:text="ASSSS"
         android:id="@+id/scanned_item_owner"
         android:layout_width="match_parent"
