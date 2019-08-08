@@ -60,7 +60,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     "scanned_id integer not null," +
                     "code1c integer," +
                     "type1c integer," +
-                    "quantity integer default 1)");
+                    "quantity integer default 1," +
+                    "primary key(scanned_id,code1c,type1c))");
         }
     }
 }

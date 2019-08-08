@@ -29,12 +29,13 @@ public class ScannedModel {
         mCardName = cardName;
     }
 
-    public ScannedModel(int scannedID, int quantity, int code1C, int type1C,int scannedType) {
+    public ScannedModel(int scannedID, int quantity, int code1C, int type1C,int scannedType,String cardName) {
         mScannedID = scannedID;
         mQuantity = quantity;
         mCode1C = code1C;
         mType1C = type1C;
         mScannedType = scannedType;
+        mCardName = cardName;
     }
 
     public int getScannedID() {

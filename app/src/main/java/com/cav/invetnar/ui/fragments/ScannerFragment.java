@@ -80,9 +80,19 @@ public class ScannerFragment extends Fragment{
         mFrameLayout = view.findViewById(R.id.barcode_frame);
 
         if (scannedNew) {
-            currentScannedNum = mDataManager.getPreManager().getCurrentNumIn();
-            currentScannedNum += 1;
-            mDataManager.getPreManager().setCurrentNumIn(currentScannedNum);
+            switch (scannedType) {
+                case ConstantManager.SCANNED_IN:
+                    currentScannedNum = mDataManager.getPreManager().getCurrentNumIn();
+                    currentScannedNum += 1;
+                    mDataManager.getPreManager().setCurrentNumIn(currentScannedNum);
+                    break;
+                case ConstantManager.SCANNED_OUT:
+                    currentScannedNum = mDataManager.getPreManager().getCurrentNumOut();
+                    currentScannedNum += 1;
+                    mDataManager.getPreManager().setCurrentNumOut(currentScannedNum);
+                    break;
+            }
+
         }
 
         return view;
@@ -146,6 +156,9 @@ public class ScannerFragment extends Fragment{
         ArrayList<ScannedModel> data = new ArrayList<>();
         if (scannedType == ConstantManager.SCANNED_IN) {
             data = mDataManager.getDB().getScannedPrixod(currentScannedNum,scannedType);
+        }
+        if (scannedType == ConstantManager.SCANNED_OUT) {
+            data = mDataManager.getDB().getScannedRashod(currentScannedNum);
         }
 
         if (mAdapter == null) {
@@ -230,7 +243,7 @@ public class ScannerFragment extends Fragment{
             updateUI();
         }
 
-        if (scannedType == ConstantManager.SACNNED_OUT) {
+        if (scannedType == ConstantManager.SCANNED_OUT) {
             // записываем расход с запросом количества
             mDataManager.getDB().addOutRecord(currentScannedNum,order,code1c,type1c,quantity);
             updateUI();

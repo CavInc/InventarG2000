@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.cav.invetnar.data.models.NomenclatureModel;
 import com.cav.invetnar.data.models.ScannedFileModel;
 import com.cav.invetnar.data.models.ScannedModel;
+import com.cav.invetnar.utils.ConstantManager;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ public class DBConnect {
         database = mDBHelper.getWritableDatabase();
     }
     public  void close(){
-        if (database!=null) {
+        if (database != null) {
             database.close();
         }
     }
@@ -100,8 +101,24 @@ public class DBConnect {
     }
 
     // список сканирования расход
-    public ArrayList<ScannedModel> getScannedRashod(int scanned_id) {
+    public ArrayList<ScannedModel> getScannedRashod(int scannedId) {
         ArrayList<ScannedModel> rec = new ArrayList<>();
+        String sql = "select scanned_id,code1c,type1c,quantity,name_card from scanner_out sc\n" +
+                "  left join tovar tv on sc.code1c=tv.id1c\n" +
+                "where sc.scanned_id="+String.valueOf(scannedId);
+        open();
+        Cursor cursor = database.rawQuery(sql,null);
+        while (cursor.moveToNext()) {
+            rec.add(new ScannedModel(
+                    cursor.getInt(cursor.getColumnIndex("scanned_id")),
+                    cursor.getInt(cursor.getColumnIndex("quantity")),
+                    cursor.getInt(cursor.getColumnIndex("code1c")),
+                    cursor.getInt(cursor.getColumnIndex("type1c")),
+                    ConstantManager.SCANNED_OUT,
+                    cursor.getString(cursor.getColumnIndex("name_card"))
+            ));
+        }
+        close();
         return rec;
     }
 
@@ -116,7 +133,7 @@ public class DBConnect {
         values.put("code1c",code1c);
         values.put("type1c",type1c);
         values.put("owner_name",ownwer);
-        database.insertWithOnConflict(DBHelper.SCANNER_PRIH,null,values,SQLiteDatabase.CONFLICT_ROLLBACK);
+        database.insertWithOnConflict(DBHelper.SCANNER_PRIH,null,values,SQLiteDatabase.CONFLICT_REPLACE);
         close();
     }
 
@@ -145,7 +162,7 @@ public class DBConnect {
         values.put("quantity",quantity);
         values.put("code1c",code1c);
         values.put("type1c",type1c);
-        database.insertWithOnConflict(DBHelper.SCANNER_RASH,null,values,SQLiteDatabase.CONFLICT_ROLLBACK);
+        database.insertWithOnConflict(DBHelper.SCANNER_RASH,null,values,SQLiteDatabase.CONFLICT_REPLACE);
         close();
     }
 

@@ -1,6 +1,7 @@
 package com.cav.invetnar.data.managers;
 
 import android.content.SharedPreferences;
+import android.widget.EditText;
 
 import com.cav.invetnar.utils.App;
 
@@ -12,6 +13,7 @@ public class PreManager {
 
     private static final String CODE_FILE = "CODE_FILE";
     private static final String CURRENT_IN = "CURRENT_IN";
+    private static final String CURRENT_OUT = "CURRENT_OUT";
     private SharedPreferences mSharedPreferences;
 
     public PreManager(){
@@ -52,4 +54,13 @@ public class PreManager {
         editor.apply();
     }
 
+    public int getCurrentNumOut() {
+        return mSharedPreferences.getInt(CURRENT_OUT, 0);
+    }
+
+    public void setCurrentNumOut(int current){
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putInt(CURRENT_OUT,current);
+        editor.apply();
+    }
 }

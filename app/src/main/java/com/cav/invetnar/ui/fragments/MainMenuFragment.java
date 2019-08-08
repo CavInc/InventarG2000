@@ -46,7 +46,8 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
                 ((MainActivity) getActivity()).viewFragment(new ScannerFragment(),"SCANER");
                 break;
             case R.id.main_new_scann_pash:
-                mDataManager.setTypeScanned(ConstantManager.SACNNED_OUT);
+                mDataManager.setTypeScanned(ConstantManager.SCANNED_OUT);
+                mDataManager.setScannedNew(true);
                 ((MainActivity) getActivity()).viewFragment(new ScannerFragment(),"SCANER");
                 break;
             case R.id.main_store_scann:
