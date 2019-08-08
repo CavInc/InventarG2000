@@ -13,7 +13,9 @@ import android.widget.ListView;
 import com.cav.invetnar.R;
 import com.cav.invetnar.data.managers.DataManager;
 import com.cav.invetnar.data.models.ScannedFileModel;
+import com.cav.invetnar.ui.activies.MainActivity;
 import com.cav.invetnar.ui.adapters.ScannedFileListAdapter;
+import com.cav.invetnar.utils.ConstantManager;
 
 import java.util.ArrayList;
 
@@ -62,6 +64,15 @@ public class ScannedFileFragment extends Fragment implements AdapterView.OnItemC
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
+        ScannedFileModel model = (ScannedFileModel) adapterView.getItemAtPosition(position);
+        if (model.getType() == ConstantManager.SCANNED_IN) {
+            mDataManager.getPreManager().setCurrentNumIn(model.getId());
+        }
+        if (model.getType() == ConstantManager.SCANNED_OUT) {
+            mDataManager.getPreManager().setCurrentNumOut(model.getId());
+        }
+        mDataManager.setScannedNew(false);
+        mDataManager.setTypeScanned(model.getType());
+        ((MainActivity) getActivity()).viewFragment(new ScannerFragment(),"SCANER");
     }
 }

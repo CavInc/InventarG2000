@@ -93,6 +93,15 @@ public class ScannerFragment extends Fragment{
                     break;
             }
 
+        } else {
+            switch (scannedType) {
+                case ConstantManager.SCANNED_IN:
+                    currentScannedNum = mDataManager.getPreManager().getCurrentNumIn();
+                    break;
+                case ConstantManager.SCANNED_OUT:
+                    currentScannedNum = mDataManager.getPreManager().getCurrentNumOut();
+                    break;
+            }
         }
 
         return view;

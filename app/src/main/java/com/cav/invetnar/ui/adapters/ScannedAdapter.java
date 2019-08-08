@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.cav.invetnar.R;
 import com.cav.invetnar.data.models.ScannedModel;
+import com.cav.invetnar.utils.ConstantManager;
 
 import org.w3c.dom.Text;
 
@@ -55,6 +56,13 @@ public class ScannedAdapter extends ArrayAdapter<ScannedModel>{
         }
 
         ScannedModel record = getItem(position);
+        if (record.getScannedType() == ConstantManager.SCANNED_IN) {
+            holder.mOrder.setVisibility(View.VISIBLE);
+        } else if (record.getScannedType() == ConstantManager.SCANNED_OUT) {
+            holder.mOrder.setVisibility(View.GONE);
+            holder.mOwner.setVisibility(View.GONE);
+            holder.mPos.setVisibility(View.GONE);
+        }
         holder.mOrder.setText(String.valueOf(record.getOrderNum()));
         holder.mType1C.setText(String.valueOf(record.getType1C()));
         holder.mCode1C.setText(String.valueOf(record.getCode1C()));
