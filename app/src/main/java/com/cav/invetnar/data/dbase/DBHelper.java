@@ -54,6 +54,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     "code1c integer," +
                     "type1c integer," +
                     "owner_name text," +
+                    "close integer default 0," + // закрытое сканирование
                     "primary key (scaned_id,order_num,position,quantity,code1c))");
 
             db.execSQL("create table "+SCANNER_RASH+"(" +
@@ -61,6 +62,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     "code1c integer," +
                     "type1c integer," +
                     "quantity integer default 1," +
+                    "close integer default 0," + // закрытое сканирование
                     "primary key(scanned_id,code1c,type1c))");
         }
     }

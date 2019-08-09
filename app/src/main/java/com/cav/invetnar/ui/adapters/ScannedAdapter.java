@@ -64,9 +64,9 @@ public class ScannedAdapter extends ArrayAdapter<ScannedModel>{
             holder.mPos.setVisibility(View.GONE);
         }
         holder.mOrder.setText(String.valueOf(record.getOrderNum()));
-        holder.mType1C.setText(String.valueOf(record.getType1C()));
-        holder.mCode1C.setText(String.valueOf(record.getCode1C()));
-        holder.mQuantity.setText(String.valueOf(record.getQuantity()));
+        holder.mType1C.setText("Хар. :"+String.valueOf(record.getType1C()));
+        holder.mCode1C.setText("Код "+String.valueOf(record.getCode1C()));
+        holder.mQuantity.setText("Кол. "+String.valueOf(record.getQuantity()));
         holder.mPos.setText(String.valueOf(record.getPos()));
         holder.mOwner.setText(record.getOwner());
         holder.mCardName.setText(record.getCardName());

@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
@@ -23,6 +24,7 @@ import com.cav.invetnar.R;
 import com.cav.invetnar.data.managers.DataManager;
 import com.cav.invetnar.data.models.ScannedModel;
 import com.cav.invetnar.ui.adapters.ScannedAdapter;
+import com.cav.invetnar.ui.dialogs.ChangeQuantityDialog;
 import com.cav.invetnar.utils.ConstantManager;
 import com.cav.invetnar.utils.Func;
 import com.google.zxing.ResultPoint;
@@ -38,7 +40,7 @@ import java.util.List;
  * Created by cav on 04.08.19.
  */
 
-public class ScannerFragment extends Fragment{
+public class ScannerFragment extends Fragment implements View.OnClickListener{
     private static final String TAG = "SF";
     private DataManager mDataManager;
 
@@ -56,6 +58,8 @@ public class ScannerFragment extends Fragment{
     private String mBar;
     private boolean scannedNew;
     private int currentScannedNum;
+
+    private Button mRescannBt;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +82,9 @@ public class ScannerFragment extends Fragment{
         mListView = view.findViewById(R.id.scanned_lv);
 
         mFrameLayout = view.findViewById(R.id.barcode_frame);
+        mRescannBt = view.findViewById(R.id.rescan_bt);
+
+        mRescannBt.setOnClickListener(this);
 
         if (scannedNew) {
             switch (scannedType) {
@@ -254,12 +261,42 @@ public class ScannerFragment extends Fragment{
 
         if (scannedType == ConstantManager.SCANNED_OUT) {
             // записываем расход с запросом количества
-            mDataManager.getDB().addOutRecord(currentScannedNum,order,code1c,type1c,quantity);
-            updateUI();
+            String name = mDataManager.getDB().getTovarName(code1c);
+            if (name == null) {
+                name = "Не найдено";
+            }
+
+            this.order = order;
+            this.code1c = code1c;
+            this.type1c = type1c;
+
+            ChangeQuantityDialog dialog = ChangeQuantityDialog.newInstance(name,1);
+            dialog.setDialogListner(mChangeQuantityDialogListner);
+            dialog.show(getActivity().getFragmentManager(),"CQD");
+           // mDataManager.getDB().addOutRecord(currentScannedNum,order,code1c,type1c,quantity);
+           // updateUI();
         }
 
         mBarCode.setText("");
         return false;
     }
 
+    private int order;
+    private int code1c;
+    private int type1c;
+
+    ChangeQuantityDialog.ChangeQuantityDialogListner mChangeQuantityDialogListner = new ChangeQuantityDialog.ChangeQuantityDialogListner() {
+        @Override
+        public void onChangeQuantity(int quantity) {
+            mDataManager.getDB().addOutRecord(currentScannedNum,order,code1c,type1c,quantity);
+            updateUI();
+        }
+    };
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.rescan_bt) {
+            startCamera();
+        }
+    }
 }

@@ -151,8 +151,16 @@ public class DBConnect {
 
     // ищем название по коду
     public String getTovarName(int code1c) {
-        return null;
+        String rec = null;
+        open();
+        Cursor cursor = database.query(DBHelper.TOVAR,new String[]{"name_card"},"id1c=?",new String[]{String.valueOf(code1c)},null,null,null);
+        while (cursor.moveToNext()) {
+            rec = cursor.getString(0);
+        }
+        close();
+        return rec;
     }
+
 
     // сохраняем данные о расходе
     public void addOutRecord(int currentScannedNum, int order, int code1c, int type1c, int quantity) {
