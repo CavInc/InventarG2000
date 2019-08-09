@@ -54,6 +54,10 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
                 mDataManager.setScannedNew(false);
                 ((MainActivity) getActivity()).viewFragment(new ScannedFileFragment(),"STORE");
                 break;
+            case R.id.main_ostatok:
+                mDataManager.setScannedNew(false);
+                ((MainActivity) getActivity()).viewFragment(new OstatokFragment(),"OSTATOK");
+                break;
         }
     }
 }

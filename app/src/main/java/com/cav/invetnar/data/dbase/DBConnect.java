@@ -9,8 +9,10 @@ import com.cav.invetnar.data.models.NomenclatureModel;
 import com.cav.invetnar.data.models.ScannedFileModel;
 import com.cav.invetnar.data.models.ScannedModel;
 import com.cav.invetnar.utils.ConstantManager;
+import com.cav.invetnar.utils.Func;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by cav on 04.08.19.
@@ -192,5 +194,36 @@ public class DBConnect {
         }
         close();
         return rec;
+    }
+
+    // создаем запись в остатках на основании сканирования
+    public void storeOstatok(int scanned_id,int scanned_type){
+        open();
+        String sql = null;
+        if (scanned_type == ConstantManager.SCANNED_IN) {
+            sql = "select scaned_id,code1c,type1c,count(1) as count from scanner_in\n" +
+                    "where scaned_id = " +String.valueOf(scanned_id)+" "+
+                    "group by scaned_id,code1c,type1c";
+        } else if (scanned_type == ConstantManager.SCANNED_OUT) {
+            sql = "select scanned_id as scaned_id,code1c,type1c,count(1) as count from scanner_in\n" +
+                    "where scaned_id = " +String.valueOf(scanned_id)+" "+
+                    "group by scanned_id,code1c,type1c";
+        }
+        String dt = Func.getDateToStr(new Date(),"yyyy-MM-dd HH:mm");
+        ContentValues values = new ContentValues();
+
+        Cursor cursor = database.rawQuery(sql,null);
+        while (cursor.moveToNext()) {
+            values.clear();
+            values.put("id",scanned_id);
+            values.put("sanner_date",dt);
+            values.put("doc_type",scanned_type);
+            values.put("code1c",cursor.getInt(cursor.getColumnIndex("code1c")));
+            values.put("type1c",cursor.getInt(cursor.getColumnIndex("type1c")));
+            values.put("quantity",cursor.getInt(cursor.getColumnIndex("count")));
+            database.insertWithOnConflict(DBHelper.SKLAD,null,values,SQLiteDatabase.CONFLICT_REPLACE);
+        }
+
+        close();
     }
 }
