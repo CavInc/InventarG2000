@@ -1,5 +1,7 @@
 package com.cav.invetnar.ui.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -142,7 +144,24 @@ public class ScannerFragment extends Fragment implements View.OnClickListener{
             }
             frameScanVisible = !frameScanVisible;
         }
+        if (item.getItemId() == R.id.scanned_close) {
+            storeClose();
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void storeClose() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Внимание !!!!")
+                .setMessage("Завершаем сканирование ? \n После завершения, будет не возможно добавление")
+                .setNegativeButton(R.string.dialog_no,null)
+                .setPositiveButton(R.string.dialog_yes,new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mDataManager.getDB().storeOstatok(currentScannedNum,scannedType);
+                    }
+                })
+                .show();
     }
 
     TextView.OnEditorActionListener mEditorActionListener = new TextView.OnEditorActionListener() {

@@ -6,4 +6,11 @@
         android:icon="@drawable/ic_local_see_white_24dp"
         android:title="Использовать камеру"
         app:showAsAction="always|collapseActionView"/>
+    <item
+        android:id="@+id/scanned_close"
+        android:title="Завершить сканирование"
+        android:iconTint="@android:color/white"
+        android:icon="@drawable/ic_close_black_24dp"
+        app:showAsAction="always|collapseActionView"/>
+
 </menu>

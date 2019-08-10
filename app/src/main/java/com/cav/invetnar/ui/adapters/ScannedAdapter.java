@@ -63,7 +63,7 @@ public class ScannedAdapter extends ArrayAdapter<ScannedModel>{
             holder.mOwner.setVisibility(View.GONE);
             holder.mPos.setVisibility(View.GONE);
         }
-        holder.mOrder.setText(String.valueOf(record.getOrderNum()));
+        holder.mOrder.setText("Партия :"+String.valueOf(record.getOrderNum()));
         holder.mType1C.setText("Хар. :"+String.valueOf(record.getType1C()));
         holder.mCode1C.setText("Код "+String.valueOf(record.getCode1C()));
         holder.mQuantity.setText("Кол. "+String.valueOf(record.getQuantity()));

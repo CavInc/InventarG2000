@@ -224,6 +224,15 @@ public class DBConnect {
             database.insertWithOnConflict(DBHelper.SKLAD,null,values,SQLiteDatabase.CONFLICT_REPLACE);
         }
 
+        values.clear();
+        values.put("close",1);
+
+        if (scanned_type == ConstantManager.SCANNED_IN) {
+            database.update(DBHelper.SCANNER_PRIH,values,"scaned_id=?",new String[]{String.valueOf(scanned_id)});
+        } else if (scanned_id == ConstantManager.SCANNED_OUT) {
+            database.update(DBHelper.SCANNER_RASH,values,"scanned_id=?",new String[]{String.valueOf(scanned_id)});
+        }
+
         close();
     }
 }
