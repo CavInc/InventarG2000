@@ -62,7 +62,7 @@ public class SkladAdapter extends ArrayAdapter<SkladModel> {
         } else if (record.getType() == ConstantManager.SCANNED_OUT) {
             holder.mDocType.setText("расход");
         }
-        holder.mScanedDate.setText(Func.getDateToStr(record.getDate(),"dd-MM-yyyy HH:mm"));
+        holder.mScanedDate.setText(Func.getDateToStr(record.getDate(),"dd.MM.yyyy HH:mm"));
 
         return row;
     }

@@ -259,4 +259,16 @@ public class DBConnect {
         return rec;
     }
 
+    public void addTovar(int code, String name)  {
+        open();
+        ContentValues values = new ContentValues();
+        values.put("id1c",code);
+        values.put("name_card",name);
+        try {
+            database.insertWithOnConflict(DBHelper.TOVAR, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        close();
+    }
 }
