@@ -271,4 +271,28 @@ public class DBConnect {
         }
         close();
     }
+
+    // получить остатки
+    public ArrayList<OstatokModel> getOstatok(){
+        ArrayList<OstatokModel> rec = new ArrayList<>();
+        String sql = "select  sd.code1c,tr.name_card,\n" +
+                "  sum( case\n" +
+                "      when sd.doc_type=0 then sd.quantity\n" +
+                "      when sd.doc_type=1 then -sd.quantity\n" +
+                "    end) as quantity from sklad sd\n" +
+                " left join tovar tr on sd.code1c=tr.id1c\n" +
+                " group by sd.code1c,tr.name_card";
+        open();
+        Cursor cursor = database.rawQuery(sql,null);
+        while (cursor.moveToNext()){
+            rec.add(new OstatokModel(
+                    cursor.getInt(cursor.getColumnIndex("code1c")),
+                    cursor.getString(cursor.getColumnIndex("name_card")),
+                    cursor.getInt(cursor.getColumnIndex("quantity"))
+            ));
+        }
+        close();
+        return rec;
+    }
+
 }

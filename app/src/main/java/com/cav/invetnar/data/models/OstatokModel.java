@@ -9,6 +9,12 @@ public class OstatokModel {
     private String mName;
     private int mQuantity;
 
+    public OstatokModel(int code1c, String name, int quantity) {
+        mCode1c = code1c;
+        mName = name;
+        mQuantity = quantity;
+    }
+
     public int getCode1c() {
         return mCode1c;
     }

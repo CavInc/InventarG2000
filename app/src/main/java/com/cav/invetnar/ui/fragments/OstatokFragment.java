@@ -51,7 +51,7 @@ public class OstatokFragment extends Fragment {
     }
 
     private void updateUI(){
-        ArrayList<OstatokModel> data = new ArrayList<>();
+        ArrayList<OstatokModel> data = mDataManager.getDB().getOstatok();
         if (mAdapter == null){
             mAdapter = new OstatokAdapter(getActivity(),R.layout.ostatok_item,data);
             mListView.setAdapter(mAdapter);

@@ -47,10 +47,14 @@ public class OstatokAdapter extends ArrayAdapter<OstatokModel> {
         }
 
         OstatokModel record = getItem(position);
-        holder.mName.setText(record.getName());
-        holder.mQuantity.setText(record.getQuantity());
+        if (record.getName() == null){
+            holder.mName.setText("Не определено");
+        } else {
+            holder.mName.setText(record.getName());
+        }
+        holder.mQuantity.setText(String.valueOf(record.getQuantity()));
 
-        return super.getView(position, convertView, parent);
+        return row;
     }
 
     private class ViewHolder {
