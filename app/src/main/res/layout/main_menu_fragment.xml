@@ -26,6 +26,11 @@
         android:layout_height="wrap_content"/>
 
     <Button
+        android:id="@+id/main_sklad"
+        android:text="Склад"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
         android:id="@+id/main_ostatok"
         android:text="Отчет о остатках"
         android:layout_width="match_parent"

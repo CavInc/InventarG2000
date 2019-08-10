@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.cav.invetnar.R;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
  * Created by cav on 06.08.19.
  */
 
-public class NomenclatureActivity extends AppCompatActivity {
+public class NomenclatureActivity extends AppCompatActivity implements AdapterView.OnItemLongClickListener {
     private DataManager mDataManager;
     private ListView mListView;
 
@@ -31,6 +33,7 @@ public class NomenclatureActivity extends AppCompatActivity {
         mDataManager = DataManager.getInstance();
 
         mListView = findViewById(R.id.tovar_lv);
+        mListView.setOnItemLongClickListener(this);
 
         setupTool();
     }
@@ -66,5 +69,10 @@ public class NomenclatureActivity extends AppCompatActivity {
             mAdapter.notifyDataSetChanged();
         }
 
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        return false;
     }
 }

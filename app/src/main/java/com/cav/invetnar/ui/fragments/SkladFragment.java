@@ -11,33 +11,33 @@ import android.widget.ListView;
 
 import com.cav.invetnar.R;
 import com.cav.invetnar.data.managers.DataManager;
-import com.cav.invetnar.data.models.OstatokModel;
+import com.cav.invetnar.data.models.SkladModel;
 import com.cav.invetnar.ui.adapters.OstatokAdapter;
+import com.cav.invetnar.ui.adapters.SkladAdapter;
 
 import java.util.ArrayList;
 
 /**
- * Created by cav on 09.08.19.
+ * Created by cav on 10.08.19.
  */
 
-public class OstatokFragment extends Fragment {
+public class SkladFragment extends Fragment {
     private DataManager mDataManager;
 
     private ListView mListView;
-    private OstatokAdapter mAdapter;
+    private SkladAdapter mAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDataManager = DataManager.getInstance();
-
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ostatok_fragment,parent,false);
-        mListView = view.findViewById(R.id.ostatok_lv);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sklad_fragment,parent,false);
+        mListView = view.findViewById(R.id.sklad_lv);
 
         return view;
     }
@@ -48,11 +48,12 @@ public class OstatokFragment extends Fragment {
         updateUI();
     }
 
-    private void updateUI(){
-        ArrayList<OstatokModel> data = new ArrayList<>();
-        if (mAdapter == null){
-            mAdapter = new OstatokAdapter(getActivity(),R.layout.ostatok_item,data);
+    public void updateUI(){
+        ArrayList<SkladModel> data = mDataManager.getDB().getSklad();
+        if (mAdapter == null) {
+            mAdapter = new SkladAdapter(getActivity(),R.layout.sklad_item,data);
             mListView.setAdapter(mAdapter);
         }
+
     }
 }

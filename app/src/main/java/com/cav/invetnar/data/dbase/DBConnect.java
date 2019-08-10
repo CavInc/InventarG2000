@@ -6,8 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.cav.invetnar.data.models.NomenclatureModel;
+import com.cav.invetnar.data.models.OstatokModel;
 import com.cav.invetnar.data.models.ScannedFileModel;
 import com.cav.invetnar.data.models.ScannedModel;
+import com.cav.invetnar.data.models.SkladModel;
 import com.cav.invetnar.utils.ConstantManager;
 import com.cav.invetnar.utils.Func;
 
@@ -235,4 +237,26 @@ public class DBConnect {
 
         close();
     }
+
+    // список документов по складу
+    public ArrayList<SkladModel> getSklad(){
+        ArrayList<SkladModel> rec = new ArrayList<>();
+        open();
+        Cursor cursor = database.query(DBHelper.SKLAD,
+                new String[]{"id","sanner_date","doc_type","code1c","type1c","quantity"},
+                null,null,null,null,"sanner_date,id");
+        while (cursor.moveToNext()) {
+            rec.add(new SkladModel(
+                    cursor.getInt(cursor.getColumnIndex("id")),
+                    Func.getStrToDate(cursor.getString(cursor.getColumnIndex("sanner_date")),"yyyy-MM-dd HH:mm"),
+                    cursor.getInt(cursor.getColumnIndex("doc_type")),
+                    cursor.getInt(cursor.getColumnIndex("code1c")),
+                    cursor.getInt(cursor.getColumnIndex("type1c")),
+                    cursor.getInt(cursor.getColumnIndex("quantity"))
+            ));
+        }
+        close();
+        return rec;
+    }
+
 }

@@ -32,7 +32,9 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_menu_fragment,parent,false);
         view.findViewById(R.id.main_new_scann_prix).setOnClickListener(this);
         view.findViewById(R.id.main_new_scann_pash).setOnClickListener(this);
-        view.findViewById(R.id.main_store_scann).setOnClickListener(this);;
+        view.findViewById(R.id.main_store_scann).setOnClickListener(this);
+        view.findViewById(R.id.main_ostatok).setOnClickListener(this);
+        view.findViewById(R.id.main_sklad).setOnClickListener(this);
 
         return view;
     }
@@ -57,6 +59,9 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
             case R.id.main_ostatok:
                 mDataManager.setScannedNew(false);
                 ((MainActivity) getActivity()).viewFragment(new OstatokFragment(),"OSTATOK");
+                break;
+            case R.id.main_sklad:
+                ((MainActivity) getActivity()).viewFragment(new SkladFragment(),"SKLAD");
                 break;
         }
     }
