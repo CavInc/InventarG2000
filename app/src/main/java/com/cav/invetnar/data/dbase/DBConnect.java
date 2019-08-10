@@ -207,7 +207,7 @@ public class DBConnect {
                     "where scaned_id = " +String.valueOf(scanned_id)+" "+
                     "group by scaned_id,code1c,type1c";
         } else if (scanned_type == ConstantManager.SCANNED_OUT) {
-            sql = "select scanned_id as scaned_id,code1c,type1c,count(1) as count from scanner_in\n" +
+            sql = "select scanned_id as scaned_id,code1c,type1c,count(1) as count from scanner_out\n" +
                     "where scaned_id = " +String.valueOf(scanned_id)+" "+
                     "group by scanned_id,code1c,type1c";
         }
