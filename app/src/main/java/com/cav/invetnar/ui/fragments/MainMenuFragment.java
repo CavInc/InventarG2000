@@ -11,8 +11,11 @@ import android.view.ViewGroup;
 
 import com.cav.invetnar.R;
 import com.cav.invetnar.data.managers.DataManager;
+import com.cav.invetnar.data.models.ScannedModel;
 import com.cav.invetnar.ui.activies.MainActivity;
 import com.cav.invetnar.utils.ConstantManager;
+
+import java.util.ArrayList;
 
 /**
  * Created by cav on 04.08.19.
@@ -36,6 +39,7 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.main_store_scann).setOnClickListener(this);
         view.findViewById(R.id.main_ostatok).setOnClickListener(this);
         view.findViewById(R.id.main_sklad).setOnClickListener(this);
+        view.findViewById(R.id.main_store_prihod).setOnClickListener(this);
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Инвентаризация");
         return view;
@@ -65,6 +69,18 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
             case R.id.main_sklad:
                 ((MainActivity) getActivity()).viewFragment(new SkladFragment(),"SKLAD");
                 break;
+            case R.id.main_store_prihod:
+                storePrihodAll();
+                break;
+        }
+    }
+
+    // сохраняем все приходы в файлы (у который не стоит файла выгрузки)
+    private void storePrihodAll() {
+        ArrayList<Integer> data = mDataManager.getDB().getNoStorePrihod();
+        for (Integer l : data) {
+            ArrayList<ScannedModel> scanned = mDataManager.getDB().getScannedPrixod(l, ConstantManager.SCANNED_IN);
+
         }
     }
 }

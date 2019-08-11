@@ -1,5 +1,6 @@
 package com.cav.invetnar.ui.fragments;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -67,6 +68,14 @@ public class ScannedFileFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         ScannedFileModel model = (ScannedFileModel) adapterView.getItemAtPosition(position);
+        if (model.getStoreFlg() != 0) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Внимание !!!")
+                    .setMessage("Данные выгружены в файл.\n изменения запрещены")
+                    .setNegativeButton(R.string.dialog_close,null);
+            return;
+        }
+
         if (model.getType() == ConstantManager.SCANNED_IN) {
             mDataManager.getPreManager().setCurrentNumIn(model.getId());
         }

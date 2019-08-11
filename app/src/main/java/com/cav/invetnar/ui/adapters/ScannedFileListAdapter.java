@@ -42,6 +42,7 @@ public class ScannedFileListAdapter extends ArrayAdapter<ScannedFileModel>{
 
             holder.mOrder = row.findViewById(R.id.scanned_file_item_order);
             holder.mType = row.findViewById(R.id.scanned_file_item_type);
+            holder.mStatus = row.findViewById(R.id.scanned_file_flag);
 
             row.setTag(holder);
         }else{
@@ -55,6 +56,14 @@ public class ScannedFileListAdapter extends ArrayAdapter<ScannedFileModel>{
         } else {
             holder.mType.setText("Расход");
         }
+        String status = "";
+        if (record.getSkladFlg() != 0) {
+            status = "Создан документ";
+        }
+        if (record.getStoreFlg() != 0) {
+            status = status + " / Выгружено";
+        }
+        holder.mStatus.setText(status);
 
         return row;
     }
@@ -62,5 +71,6 @@ public class ScannedFileListAdapter extends ArrayAdapter<ScannedFileModel>{
     private class ViewHolder {
         private TextView mOrder;
         private TextView mType;
+        private TextView mStatus;
     }
 }

@@ -6,4 +6,13 @@
 
     <!-- app color -->
     <color name="app_gray">#d4d4d4</color>
+
+    <color name="app_blue_dark">#0D47A1</color>
+    <color name="app_blue">#1976D2</color>
+    <color name="app_blue_ligth">#42A5F5</color>
+    <color name="app_blur_200">#90CAF9</color>
+
+    <color name="app_green">#81B540</color>
+    <color name="app_green_dark">#5b9f06</color>
+    <color name="app_green_ligth">#9dcc62</color>
 </resources>

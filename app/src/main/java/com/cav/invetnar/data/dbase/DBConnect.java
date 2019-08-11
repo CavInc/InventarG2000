@@ -334,4 +334,24 @@ public class DBConnect {
         deleteSklad(ConstantManager.SCANNED_IN);
         deleteSklad(ConstantManager.SCANNED_OUT);
     }
+
+    // получаем не выгруженные приходы
+    public ArrayList<Integer> getNoStorePrihod(){
+        ArrayList<Integer> rec = new ArrayList<>();
+        String sql = "select scanned_id,count(1) from scanner_in\n" +
+                "where store_flag = 0\n" +
+                "group by scaned_id";
+        open();
+        Cursor cursor = database.rawQuery(sql,null);
+        while (cursor.moveToNext()) {
+            rec.add(cursor.getInt(0));
+        }
+        close();
+        return rec;
+    }
+
+    // установка флага выгрузки
+    public void setStoreFlg(){
+
+    }
 }
