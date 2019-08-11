@@ -242,9 +242,17 @@ public class DBConnect {
     public ArrayList<SkladModel> getSklad(){
         ArrayList<SkladModel> rec = new ArrayList<>();
         open();
+
+        String sql = "select sd.id,sd.sanner_date,sd.doc_type,sd.code1c,sd.type1c,sd.quantity,tv.name_card from sklad sd\n" +
+                "  left join tovar tv on sd.code1c=tv.id1c\n" +
+                "order by sanner_date,id  ";
+
+        Cursor cursor = database.rawQuery(sql,null);
+        /*
         Cursor cursor = database.query(DBHelper.SKLAD,
                 new String[]{"id","sanner_date","doc_type","code1c","type1c","quantity"},
                 null,null,null,null,"sanner_date,id");
+               */
         while (cursor.moveToNext()) {
             rec.add(new SkladModel(
                     cursor.getInt(cursor.getColumnIndex("id")),
@@ -252,7 +260,8 @@ public class DBConnect {
                     cursor.getInt(cursor.getColumnIndex("doc_type")),
                     cursor.getInt(cursor.getColumnIndex("code1c")),
                     cursor.getInt(cursor.getColumnIndex("type1c")),
-                    cursor.getInt(cursor.getColumnIndex("quantity"))
+                    cursor.getInt(cursor.getColumnIndex("quantity")),
+                    cursor.getString(cursor.getColumnIndex("name_card"))
             ));
         }
         close();

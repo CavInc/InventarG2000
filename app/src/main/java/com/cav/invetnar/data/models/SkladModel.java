@@ -13,6 +13,7 @@ public class SkladModel {
     private int mCode1c;
     private int mType1c;
     private int mQuantity;
+    private String mCardName;
 
     public SkladModel(int id, Date date, int type, int code1c, int type1c, int quantity) {
         mId = id;
@@ -21,6 +22,16 @@ public class SkladModel {
         mCode1c = code1c;
         mType1c = type1c;
         mQuantity = quantity;
+    }
+
+    public SkladModel(int id, Date date, int type, int code1c, int type1c, int quantity, String cardName) {
+        mId = id;
+        mDate = date;
+        mType = type;
+        mCode1c = code1c;
+        mType1c = type1c;
+        mQuantity = quantity;
+        mCardName = cardName;
     }
 
     public int getId() {
@@ -45,5 +56,9 @@ public class SkladModel {
 
     public int getQuantity() {
         return mQuantity;
+    }
+
+    public String getCardName() {
+        return mCardName;
     }
 }

@@ -46,6 +46,7 @@ public class SkladAdapter extends ArrayAdapter<SkladModel> {
             holder.mType1c = row.findViewById(R.id.sklad_type1c);
             holder.mDocType = row.findViewById(R.id.sklad_operation);
             holder.mQuantity = row.findViewById(R.id.sklad_quantity);
+            holder.mCardName = row.findViewById(R.id.sklad_name);
 
             row.setTag(holder);
         }else{
@@ -63,6 +64,11 @@ public class SkladAdapter extends ArrayAdapter<SkladModel> {
             holder.mDocType.setText("расход");
         }
         holder.mScanedDate.setText(Func.getDateToStr(record.getDate(),"dd.MM.yyyy HH:mm"));
+        if (record.getCardName() == null) {
+            holder.mCardName.setText("Не опознан");
+        } else {
+            holder.mCardName.setText(record.getCardName());
+        }
 
         return row;
     }
@@ -74,5 +80,6 @@ public class SkladAdapter extends ArrayAdapter<SkladModel> {
         private TextView mType1c;
         private TextView mDocType;
         private TextView mQuantity;
+        private TextView mCardName;
     }
 }
