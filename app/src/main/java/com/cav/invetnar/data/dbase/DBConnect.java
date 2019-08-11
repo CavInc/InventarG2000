@@ -181,17 +181,19 @@ public class DBConnect {
     // список открытых сканирований
     public ArrayList<ScannedFileModel> getScannedList(){
         ArrayList<ScannedFileModel> rec = new ArrayList<>();
-        String sql = "select scaned_id,scanned_type_name,scanned_type,count(1) as count_item from \n" +
-                "(select  scaned_id,'приход' as scanned_type_name,0 as scanned_type from scanner_in\n" +
+        String sql = "select scaned_id,scanned_type_name,scanned_type,count(1) as count_item,close,store_flag from \n" +
+                "(select  scaned_id,'приход' as scanned_type_name,0 as scanned_type,close,store_flag from scanner_in\n" +
                 "union all \n" +
-                "select  scanned_id as scaned_id ,'расход' as scanned_type_name,1 as scanned_type from scanner_out) as a\n" +
-                "group by scaned_id,scanned_type_name,scanned_type";
+                "select  scanned_id as scaned_id ,'расход' as scanned_type_name,1 as scanned_type,close,store_flag from scanner_out) as a\n" +
+                "group by scaned_id,scanned_type_name,scanned_type,close";
         open();
         Cursor cursor = database.rawQuery(sql,null);
         while (cursor.moveToNext()) {
             rec.add(new ScannedFileModel(
                     cursor.getInt(cursor.getColumnIndex("scaned_id")),
-                    cursor.getInt(cursor.getColumnIndex("scanned_type"))
+                    cursor.getInt(cursor.getColumnIndex("scanned_type")),
+                    cursor.getInt(cursor.getColumnIndex("close")),
+                    cursor.getInt(cursor.getColumnIndex("store_flag"))
             ));
         }
         close();
