@@ -1,6 +1,8 @@
 package com.cav.invetnar.ui.activies;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -65,6 +67,18 @@ public class MainActivity extends AppCompatActivity {
         }
         if (item.getItemId() == R.id.main_setting) {
             startActivity(new Intent(this,PreferenseActivity.class));
+        }
+        if (item.getItemId() == R.id.main_clear_all) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Внимание !")
+                    .setMessage("Вы уверены что хотите очистить все данные ?")
+                    .setNegativeButton(R.string.dialog_no,null)
+                    .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mDataManager.getDB().deleteAll();
+                        }
+                    }).show();
         }
         return super.onOptionsItemSelected(item);
     }

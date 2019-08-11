@@ -304,4 +304,32 @@ public class DBConnect {
         return rec;
     }
 
+    // удаляем приходы все
+    public void deletePrixod (){
+        open();
+        database.delete(DBHelper.SCANNER_PRIH,null,null);
+        close();
+    }
+
+    // удаляем расходы
+    public void deleteRashod(){
+        open();
+        database.delete(DBHelper.SCANNER_RASH,null,null);
+        close();
+    }
+
+    // удаляем  из склада по типу операции
+    public void deleteSklad(int type) {
+        open();
+        database.delete(DBHelper.SKLAD,"",null);
+        close();
+    }
+
+    // очистка всего
+    public void deleteAll(){
+        deletePrixod();
+        deleteRashod();
+        deleteSklad(ConstantManager.SCANNED_IN);
+        deleteSklad(ConstantManager.SCANNED_OUT);
+    }
 }
