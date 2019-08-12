@@ -10,35 +10,41 @@
     <Button
         android:id="@+id/main_new_scann_prix"
         android:text="Новое сканирование приход"
+        style="@style/MyButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/main_new_scann_pash"
         android:text="Новое сканирование расход"
+        style="@style/MyButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/main_store_scann"
         android:text="Список сканирований"
+        style="@style/MyButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/main_sklad"
         android:text="Склад"
+        style="@style/MyButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button
         android:id="@+id/main_ostatok"
         android:text="Отчет о остатках"
+        style="@style/MyButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/main_store_prihod"
         android:text="Вызрузка поступлений"
+        style="@style/MyButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

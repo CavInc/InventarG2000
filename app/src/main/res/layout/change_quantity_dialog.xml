@@ -30,11 +30,13 @@
             android:id="@+id/negative_button"
             android:text="@string/dialog_close"
             android:layout_weight="1"
+            style="@style/MyButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <Button
             android:id="@+id/positiove_button"
             android:layout_weight="1"
+            style="@style/MyButton"
             android:text="@string/dialog_yes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
