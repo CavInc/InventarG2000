@@ -162,6 +162,7 @@ public class ScannerFragment extends Fragment implements View.OnClickListener{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mDataManager.getDB().storeOstatok(currentScannedNum,scannedType);
+                        getActivity().onBackPressed();
                     }
                 })
                 .show();
