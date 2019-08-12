@@ -1,10 +1,12 @@
 package com.cav.invetnar.ui.fragments;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +16,18 @@ import com.cav.invetnar.data.managers.DataManager;
 import com.cav.invetnar.data.models.ScannedModel;
 import com.cav.invetnar.ui.activies.MainActivity;
 import com.cav.invetnar.utils.ConstantManager;
+import com.cav.invetnar.utils.Func;
+import com.cav.invetnar.utils.StoreXLSFile;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by cav on 04.08.19.
  */
 
 public class MainMenuFragment extends Fragment implements View.OnClickListener {
+    private static final String TAG = "MMF";
     private DataManager mDataManager;
 
     @Override
@@ -77,10 +83,33 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
 
     // сохраняем все приходы в файлы (у который не стоит файла выгрузки)
     private void storePrihodAll() {
+        String[] header = new String[] {"Штрихкод"};
+        String fName = "Сканирование_";
+        String fDate = Func.getDateToStr(new Date(),"dd_MM_yyyy_HH_MM");
         ArrayList<Integer> data = mDataManager.getDB().getNoStorePrihod();
         for (Integer l : data) {
+            fName = fName+String.valueOf(l)+"_"+fDate+".xls";
             ArrayList<ScannedModel> scanned = mDataManager.getDB().getScannedPrixod(l, ConstantManager.SCANNED_IN);
-
+            String[] dataScanned = objectToStringArray(scanned);
+            String outPath = mDataManager.getStorageAppPath();
+            Log.d(TAG,outPath);
+            StoreXLSFile storeXLS = new StoreXLSFile(getActivity(),outPath,fName,header,dataScanned);
+            storeXLS.write();
+            mDataManager.getDB().setStoreFlg(l,1);
         }
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Внимание !!!")
+                .setMessage("Созданые файлы сканирования прихода")
+                .setPositiveButton(R.string.dialog_close,null)
+                .show();
+
+    }
+
+    private String[] objectToStringArray(ArrayList<ScannedModel> scanned) {
+        ArrayList<String> rec = new ArrayList<>();
+        for (ScannedModel l : scanned) {
+            rec.add(l.getOrderNum()+";"+l.getPos()+";"+l.getQuantity()+";"+l.getCode1C()+";"+l.getType1C()+";"+l.getOwner());
+        }
+        return rec.toArray(new String[rec.size()]);
     }
 }

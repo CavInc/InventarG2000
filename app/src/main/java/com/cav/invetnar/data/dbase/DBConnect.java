@@ -338,7 +338,7 @@ public class DBConnect {
     // получаем не выгруженные приходы
     public ArrayList<Integer> getNoStorePrihod(){
         ArrayList<Integer> rec = new ArrayList<>();
-        String sql = "select scanned_id,count(1) from scanner_in\n" +
+        String sql = "select scaned_id,count(1) from "+DBHelper.SCANNER_PRIH+"\n" +
                 "where store_flag = 0\n" +
                 "group by scaned_id";
         open();
@@ -351,7 +351,11 @@ public class DBConnect {
     }
 
     // установка флага выгрузки
-    public void setStoreFlg(){
-
+    public void setStoreFlg(int scanned_id,int flag){
+        open();
+        ContentValues values = new ContentValues();
+        values.put("store_flag",flag);
+        database.update(DBHelper.SCANNER_PRIH,values,"scaned_id="+scanned_id,null);
+        close();
     }
 }
