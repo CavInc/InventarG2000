@@ -21,6 +21,7 @@ import com.cav.invetnar.utils.StoreXLSFile;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Created by cav on 04.08.19.
@@ -46,6 +47,7 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.main_ostatok).setOnClickListener(this);
         view.findViewById(R.id.main_sklad).setOnClickListener(this);
         view.findViewById(R.id.main_store_prihod).setOnClickListener(this);
+        view.findViewById(R.id.main_store_rashow).setOnClickListener(this);
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Инвентаризация");
         return view;
@@ -78,6 +80,24 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
             case R.id.main_store_prihod:
                 storePrihodAll();
                 break;
+            case R.id.main_store_rashow:
+                storeRashod();
+                break;
+        }
+    }
+
+    private void storeRashod() {
+        String[] header = new String[] {"Код","Характеристика","Количество","Наименование"};
+        String fName = "Отгрузка_";
+        String fDate = Func.getDateToStr(new Date(),"dd_MM_yyyy_HH_MM");
+        ArrayList<Integer> data = mDataManager.getDB().getNoStoreRashod();
+        for (Integer l : data) {
+            fName = fName+String.valueOf(l)+"_"+fDate+".xls";
+            ArrayList<ScannedModel> scanned = mDataManager.getDB().getScannedRashod(l);
+            ArrayList<Object> dataScanned = objectToStringArrayTwo(scanned);
+            String outPath = mDataManager.getStorageAppPath();
+            StoreXLSFile storeXLS = new StoreXLSFile(getActivity(),outPath,fName,header,dataScanned);
+            storeXLS.write();
         }
     }
 
@@ -90,7 +110,7 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
         for (Integer l : data) {
             fName = fName+String.valueOf(l)+"_"+fDate+".xls";
             ArrayList<ScannedModel> scanned = mDataManager.getDB().getScannedPrixod(l, ConstantManager.SCANNED_IN);
-            String[] dataScanned = objectToStringArray(scanned);
+            ArrayList<Object> dataScanned = objectToStringArray(scanned);
             String outPath = mDataManager.getStorageAppPath();
             Log.d(TAG,outPath);
             StoreXLSFile storeXLS = new StoreXLSFile(getActivity(),outPath,fName,header,dataScanned);
@@ -105,11 +125,26 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    private String[] objectToStringArray(ArrayList<ScannedModel> scanned) {
-        ArrayList<String> rec = new ArrayList<>();
+    private ArrayList<Object> objectToStringArray(ArrayList<ScannedModel> scanned) {
+        ArrayList<Object> rec = new ArrayList<>();
         for (ScannedModel l : scanned) {
-            rec.add(l.getOrderNum()+";"+l.getPos()+";"+l.getQuantity()+";"+l.getCode1C()+";"+l.getType1C()+";"+l.getOwner());
+            ArrayList<Object> xt = new ArrayList<>();
+            xt.add(l.getOrderNum()+";"+l.getPos()+";"+l.getQuantity()+";"+l.getCode1C()+";"+l.getType1C()+";"+l.getOwner());
+            rec.add(xt);
         }
-        return rec.toArray(new String[rec.size()]);
+        return rec;
+    }
+
+    private ArrayList<Object> objectToStringArrayTwo(ArrayList<ScannedModel> scanned){
+        ArrayList<Object> rec = new ArrayList<>();
+        for (ScannedModel l : scanned) {
+            ArrayList<Object> xt = new ArrayList<>();
+            xt.add(l.getCode1C());
+            xt.add(l.getType1C());
+            xt.add(l.getQuantity());
+            xt.add(l.getCardName());
+            rec.add(xt);
+        }
+        return rec;
     }
 }

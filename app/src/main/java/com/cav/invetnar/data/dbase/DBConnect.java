@@ -350,6 +350,21 @@ public class DBConnect {
         return rec;
     }
 
+    // получаем не выгруженные расходы
+    public ArrayList<Integer> getNoStoreRashod(){
+        ArrayList<Integer> rec = new ArrayList<>();
+        String sql = "select scanned_id,count(1) from "+DBHelper.SCANNER_RASH+"\n" +
+                "where store_flag = 0\n" +
+                "group by scanned_id";
+        open();
+        Cursor cursor = database.rawQuery(sql,null);
+        while (cursor.moveToNext()) {
+            rec.add(cursor.getInt(0));
+        }
+        close();
+        return rec;
+    }
+
     // установка флага выгрузки
     public void setStoreFlg(int scanned_id,int flag){
         open();

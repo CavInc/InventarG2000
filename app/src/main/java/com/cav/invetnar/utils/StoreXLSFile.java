@@ -1,8 +1,10 @@
 package com.cav.invetnar.utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -22,6 +24,8 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 
+import static android.support.constraint.Constraints.TAG;
+
 /**
  * Created by cav on 11.08.19.
  */
@@ -31,9 +35,9 @@ public class StoreXLSFile {
     private String mOutPath;
     private String mFileName;
     private String[] mHeader;
-    private String[] mBody;
+    private ArrayList<Object> mBody;
 
-    public StoreXLSFile(Context context, String outPath, String fileName, String[] header, String[] body) {
+    public StoreXLSFile(Context context, String outPath, String fileName, String[] header, ArrayList<Object> body) {
         mContext = context;
         mOutPath = outPath;
         mFileName = fileName;
@@ -116,9 +120,20 @@ public class StoreXLSFile {
 
         int offset_x = 0;
         int offset_y = 1;
-        for (String l : mBody) {
+
+        for (Object l : mBody) {
+            if (l instanceof ArrayList) {
+                Log.d(TAG,"ARRAY");
+                for (Object lx : (ArrayList) l) {
+                    sheet.addCell(new Label(offset_x,offset_y,(String) lx,times11format));
+                    offset_x +=1;
+                }
+            }
+            /*
             sheet.addCell(new Label(offset_x,offset_y,l,times11format));
+            */
             offset_y +=1;
         }
+
     }
 }

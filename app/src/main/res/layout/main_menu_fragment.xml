@@ -47,6 +47,12 @@
         style="@style/MyButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/main_store_rashow"
+        android:text="Выгрузка отгрузок"
+        style="@style/MyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 
 </LinearLayout>
