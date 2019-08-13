@@ -128,6 +128,7 @@ public class StoreXLSFile {
                     sheet.addCell(new Label(offset_x,offset_y,String.valueOf(lx),times11format));
                     offset_x +=1;
                 }
+                offset_x = 0;
             }
             /*
             sheet.addCell(new Label(offset_x,offset_y,l,times11format));
