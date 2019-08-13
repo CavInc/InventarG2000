@@ -224,6 +224,7 @@ public class ScannerFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onDetach() {
         releaceCamera();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         super.onDetach();
     }
 

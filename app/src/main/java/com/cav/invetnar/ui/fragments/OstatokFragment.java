@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -31,7 +33,7 @@ public class OstatokFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDataManager = DataManager.getInstance();
-
+        setHasOptionsMenu (true);
     }
 
     @Nullable
@@ -41,6 +43,7 @@ public class OstatokFragment extends Fragment {
         mListView = view.findViewById(R.id.ostatok_lv);
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Остатки");
+        setTools();
         return view;
     }
 
@@ -49,6 +52,27 @@ public class OstatokFragment extends Fragment {
         super.onResume();
         updateUI();
     }
+
+    @Override
+    public void onDetach() {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        super.onDetach();
+    }
+
+    private void setTools(){
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            getActivity().onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void updateUI(){
         ArrayList<OstatokModel> data = mDataManager.getDB().getOstatok();
