@@ -327,12 +327,18 @@ public class DBConnect {
         close();
     }
 
+    // удаляем базу данных
+    public void dropDB(){
+        mContext.deleteDatabase(DBHelper.DATABASE_NAME);
+    }
+
     // очистка всего
     public void deleteAll(){
-        deletePrixod();
-        deleteRashod();
-        deleteSklad(ConstantManager.SCANNED_IN);
-        deleteSklad(ConstantManager.SCANNED_OUT);
+        //deletePrixod();
+        //deleteRashod();
+        //deleteSklad(ConstantManager.SCANNED_IN);
+        //deleteSklad(ConstantManager.SCANNED_OUT);
+        dropDB();
     }
 
     // получаем не выгруженные приходы

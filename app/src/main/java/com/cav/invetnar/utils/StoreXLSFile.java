@@ -125,7 +125,7 @@ public class StoreXLSFile {
             if (l instanceof ArrayList) {
                 Log.d(TAG,"ARRAY");
                 for (Object lx : (ArrayList) l) {
-                    sheet.addCell(new Label(offset_x,offset_y,(String) lx,times11format));
+                    sheet.addCell(new Label(offset_x,offset_y,String.valueOf(lx),times11format));
                     offset_x +=1;
                 }
             }

@@ -99,6 +99,11 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
             StoreXLSFile storeXLS = new StoreXLSFile(getActivity(),outPath,fName,header,dataScanned);
             storeXLS.write();
         }
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Внимание !!!")
+                .setMessage("Созданые файлы сканирования расхода")
+                .setPositiveButton(R.string.dialog_close,null)
+                .show();
     }
 
     // сохраняем все приходы в файлы (у который не стоит файла выгрузки)
