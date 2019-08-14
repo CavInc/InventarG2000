@@ -15,4 +15,9 @@
     <color name="app_green">#81B540</color>
     <color name="app_green_dark">#5b9f06</color>
     <color name="app_green_ligth">#9dcc62</color>
+
+    <color name="app_red_2">#E53935</color>
+    <color name="app_red_2_dark">#C62828</color>
+    <color name="app_red_2_ligth">#EF5350</color>
+
 </resources>

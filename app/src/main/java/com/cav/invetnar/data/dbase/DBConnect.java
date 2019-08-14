@@ -205,11 +205,11 @@ public class DBConnect {
         open();
         String sql = null;
         if (scanned_type == ConstantManager.SCANNED_IN) {
-            sql = "select scaned_id,code1c,type1c,count(1) as count from scanner_in\n" +
+            sql = "select scaned_id,code1c,type1c,count(1) as count from "+DBHelper.SCANNER_PRIH+"\n" +
                     "where scaned_id = " +String.valueOf(scanned_id)+" "+
                     "group by scaned_id,code1c,type1c";
         } else if (scanned_type == ConstantManager.SCANNED_OUT) {
-            sql = "select scanned_id as scaned_id,code1c,type1c,count(1) as count from scanner_out\n" +
+            sql = "select scanned_id as scaned_id,code1c,type1c,count(1) as count from "+DBHelper.SCANNER_RASH+"\n" +
                     "where scaned_id = " +String.valueOf(scanned_id)+" "+
                     "group by scanned_id,code1c,type1c";
         }
@@ -233,7 +233,7 @@ public class DBConnect {
 
         if (scanned_type == ConstantManager.SCANNED_IN) {
             database.update(DBHelper.SCANNER_PRIH,values,"scaned_id=?",new String[]{String.valueOf(scanned_id)});
-        } else if (scanned_id == ConstantManager.SCANNED_OUT) {
+        } else if (scanned_type == ConstantManager.SCANNED_OUT) {
             database.update(DBHelper.SCANNER_RASH,values,"scanned_id=?",new String[]{String.valueOf(scanned_id)});
         }
 

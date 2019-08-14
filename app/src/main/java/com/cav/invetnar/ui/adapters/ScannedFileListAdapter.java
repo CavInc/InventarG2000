@@ -1,6 +1,8 @@
 package com.cav.invetnar.ui.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -53,8 +55,10 @@ public class ScannedFileListAdapter extends ArrayAdapter<ScannedFileModel>{
         holder.mOrder.setText("Сканнирование : "+record.getId());
         if (record.getType() == 0) {
             holder.mType.setText("Приход");
+            holder.mType.setTextColor(Color.BLACK);
         } else {
             holder.mType.setText("Расход");
+            holder.mType.setTextColor(Color.RED);
         }
         String status = "";
         if (record.getSkladFlg() != 0) {

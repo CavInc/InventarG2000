@@ -1,6 +1,8 @@
 package com.cav.invetnar.ui.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -60,8 +62,10 @@ public class SkladAdapter extends ArrayAdapter<SkladModel> {
         holder.mQuantity.setText(String.valueOf(record.getQuantity()));
         if (record.getType() == ConstantManager.SCANNED_IN) {
             holder.mDocType.setText("приход");
+            holder.mDocType.setTextColor(Color.BLACK);
         } else if (record.getType() == ConstantManager.SCANNED_OUT) {
             holder.mDocType.setText("расход");
+            holder.mDocType.setTextColor(Color.RED);
         }
         holder.mScanedDate.setText(Func.getDateToStr(record.getDate(),"dd.MM.yyyy HH:mm"));
         if (record.getCardName() == null) {
