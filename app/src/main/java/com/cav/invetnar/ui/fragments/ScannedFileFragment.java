@@ -1,6 +1,7 @@
 package com.cav.invetnar.ui.fragments;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
  * Created by cav on 06.08.19.
  */
 
-public class ScannedFileFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class ScannedFileFragment extends Fragment implements AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
     private DataManager mDataManager;
 
     private ListView mListView;
@@ -47,6 +48,7 @@ public class ScannedFileFragment extends Fragment implements AdapterView.OnItemC
 
         mListView = view.findViewById(R.id.scanned_file_lv);
         mListView.setOnItemClickListener(this);
+        mListView.setOnItemLongClickListener(this);
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Список сканирований");
         setTools();
@@ -86,7 +88,8 @@ public class ScannedFileFragment extends Fragment implements AdapterView.OnItemC
             mAdapter = new ScannedFileListAdapter(getActivity(),R.layout.scanned_file_item,data);
             mListView.setAdapter(mAdapter);
         } else {
-
+            mAdapter.setDate(data);
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -95,7 +98,7 @@ public class ScannedFileFragment extends Fragment implements AdapterView.OnItemC
         ScannedFileModel model = (ScannedFileModel) adapterView.getItemAtPosition(position);
         if (model.getStoreFlg() != 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Внимание !!!")
+            builder.setTitle(R.string.dialog_title_warning)
                     .setMessage("Данные выгружены в файл.\n изменения запрещены")
                     .setNegativeButton(R.string.dialog_close,null);
             return;
@@ -110,5 +113,24 @@ public class ScannedFileFragment extends Fragment implements AdapterView.OnItemC
         mDataManager.setScannedNew(false);
         mDataManager.setTypeScanned(model.getType());
         ((MainActivity) getActivity()).viewFragment(new ScannerFragment(),"SCANER");
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+        final ScannedFileModel record = (ScannedFileModel) adapterView.getItemAtPosition(position);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Внимание !!!")
+                .setMessage("Удаляем ? Вы уверены ?")
+                .setNegativeButton(R.string.dialog_no,null)
+                .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mDataManager.getDB().deleteScaned(record.getId(),record.getType());
+                        updateUI();
+                    }
+                })
+                .show();
+        return true;
     }
 }

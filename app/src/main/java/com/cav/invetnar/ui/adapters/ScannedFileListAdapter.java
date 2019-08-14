@@ -72,6 +72,11 @@ public class ScannedFileListAdapter extends ArrayAdapter<ScannedFileModel>{
         return row;
     }
 
+    public void setDate(ArrayList<ScannedFileModel> date) {
+        this.clear();
+        this.addAll(date);
+    }
+
     private class ViewHolder {
         private TextView mOrder;
         private TextView mType;

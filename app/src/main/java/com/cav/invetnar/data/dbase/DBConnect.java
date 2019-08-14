@@ -200,6 +200,19 @@ public class DBConnect {
         return rec;
     }
 
+    // удаляем сканирование
+    public void deleteScaned(int scanned_id,int scanned_type){
+        open();
+        if (scanned_type == ConstantManager.SCANNED_IN) {
+            database.delete(DBHelper.SCANNER_PRIH,"scaned_id="+scanned_id,null);
+            database.delete(DBHelper.SKLAD,"id=? and doc_type=?",new String[]{String.valueOf(scanned_id),String.valueOf(scanned_type)});
+        }
+        if (scanned_type == ConstantManager.SCANNED_OUT) {
+            database.delete(DBHelper.SCANNER_RASH,"scanned_id="+scanned_id,null);
+        }
+        close();
+    }
+
     // создаем запись в остатках на основании сканирования
     public void storeOstatok(int scanned_id,int scanned_type){
         open();
