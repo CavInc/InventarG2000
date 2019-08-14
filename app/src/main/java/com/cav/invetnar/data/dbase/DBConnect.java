@@ -372,11 +372,16 @@ public class DBConnect {
     }
 
     // установка флага выгрузки
-    public void setStoreFlg(int scanned_id,int flag){
+    public void setStoreFlg(int scanned_id,int flag,int mode_file){
         open();
         ContentValues values = new ContentValues();
         values.put("store_flag",flag);
-        database.update(DBHelper.SCANNER_PRIH,values,"scaned_id="+scanned_id,null);
+        if (mode_file == ConstantManager.SCANNED_IN) {
+            database.update(DBHelper.SCANNER_PRIH, values, "scaned_id=" + scanned_id, null);
+        }
+        if (mode_file == ConstantManager.SCANNED_OUT) {
+            database.update(DBHelper.SCANNER_RASH,values,"scanned_id="+scanned_id,null);
+        }
         close();
     }
 }

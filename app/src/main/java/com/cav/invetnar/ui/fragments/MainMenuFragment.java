@@ -98,6 +98,7 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
             String outPath = mDataManager.getStorageAppPath();
             StoreXLSFile storeXLS = new StoreXLSFile(getActivity(),outPath,fName,header,dataScanned);
             storeXLS.write();
+            mDataManager.getDB().setStoreFlg(l,1,ConstantManager.SCANNED_OUT);
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Внимание !!!")
@@ -120,7 +121,7 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
             Log.d(TAG,outPath);
             StoreXLSFile storeXLS = new StoreXLSFile(getActivity(),outPath,fName,header,dataScanned);
             storeXLS.write();
-            mDataManager.getDB().setStoreFlg(l,1);
+            mDataManager.getDB().setStoreFlg(l,1,ConstantManager.SCANNED_IN);
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Внимание !!!")
