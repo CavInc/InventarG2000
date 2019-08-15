@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.cav.invetnar.R;
 import com.cav.invetnar.data.managers.DataManager;
+import com.cav.invetnar.data.models.OstatokModel;
 import com.cav.invetnar.data.models.ScannedModel;
 import com.cav.invetnar.ui.activies.MainActivity;
 import com.cav.invetnar.utils.ConstantManager;
@@ -48,6 +49,7 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.main_sklad).setOnClickListener(this);
         view.findViewById(R.id.main_store_prihod).setOnClickListener(this);
         view.findViewById(R.id.main_store_rashow).setOnClickListener(this);
+        view.findViewById(R.id.main_store_ostatok).setOnClickListener(this);
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Инвентаризация");
         return view;
@@ -83,19 +85,46 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
             case R.id.main_store_rashow:
                 storeRashod();
                 break;
+            case R.id.main_store_ostatok:
+                storeOstatok();
+                break;
         }
+    }
+
+    private void storeOstatok() {
+        String[] header = new String[] {"Код","Наименование","Количество"};
+        String fName = "Остаток_";
+        String fDate = Func.getDateToStr(new Date(),"dd_MM_yyyy_HH_MM");
+        fName = fName+fDate+".xls";
+        String outPath = mDataManager.getStorageAppPath();
+        ArrayList<OstatokModel> data = mDataManager.getDB().getOstatok();
+        ArrayList<Object> outData  = new ArrayList<>();
+        for (OstatokModel l : data) {
+            ArrayList<Object> xt = new ArrayList<>();
+            xt.add(l.getCode1c());
+            xt.add(l.getName());
+            xt.add(l.getQuantity());
+            outData.add(xt);
+        }
+        StoreXLSFile storeXLS = new StoreXLSFile(getActivity(),outPath,fName,header,outData);
+        storeXLS.write();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Внимание !!!")
+                .setMessage("Созданые файлы остатков")
+                .setPositiveButton(R.string.dialog_close,null)
+                .show();
     }
 
     private void storeRashod() {
         String[] header = new String[] {"Код","Характеристика","Количество","Наименование"};
         String fName = "Отгрузка_";
         String fDate = Func.getDateToStr(new Date(),"dd_MM_yyyy_HH_MM");
+        String outPath = mDataManager.getStorageAppPath();
         ArrayList<Integer> data = mDataManager.getDB().getNoStoreRashod();
         for (Integer l : data) {
             fName = fName+String.valueOf(l)+"_"+fDate+".xls";
             ArrayList<ScannedModel> scanned = mDataManager.getDB().getScannedRashod(l);
             ArrayList<Object> dataScanned = objectToStringArrayTwo(scanned);
-            String outPath = mDataManager.getStorageAppPath();
             StoreXLSFile storeXLS = new StoreXLSFile(getActivity(),outPath,fName,header,dataScanned);
             storeXLS.write();
             mDataManager.getDB().setStoreFlg(l,1,ConstantManager.SCANNED_OUT);
