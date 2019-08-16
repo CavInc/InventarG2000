@@ -103,7 +103,8 @@ public class ScannedFileFragment extends Fragment implements AdapterView.OnItemC
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(R.string.dialog_title_warning)
                     .setMessage("Данные выгружены в файл.\n изменения запрещены")
-                    .setNegativeButton(R.string.dialog_close,null);
+                    .setNegativeButton(R.string.dialog_close,null)
+                    .show();
             return;
         }
 
