@@ -17,9 +17,11 @@ import android.widget.ListView;
 
 import com.cav.invetnar.R;
 import com.cav.invetnar.data.managers.DataManager;
+import com.cav.invetnar.data.misc.StoreFile;
 import com.cav.invetnar.data.models.ScannedFileModel;
 import com.cav.invetnar.ui.activies.MainActivity;
 import com.cav.invetnar.ui.adapters.ScannedFileListAdapter;
+import com.cav.invetnar.ui.dialogs.SelectOperationDialog;
 import com.cav.invetnar.utils.ConstantManager;
 
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ public class ScannedFileFragment extends Fragment implements AdapterView.OnItemC
 
     private ListView mListView;
     private ScannedFileListAdapter mAdapter;
+    private ScannedFileModel selectRecord;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,20 +120,56 @@ public class ScannedFileFragment extends Fragment implements AdapterView.OnItemC
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-        final ScannedFileModel record = (ScannedFileModel) adapterView.getItemAtPosition(position);
+        selectRecord = (ScannedFileModel) adapterView.getItemAtPosition(position);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Внимание !!!")
-                .setMessage("Удаляем ? Вы уверены ?")
-                .setNegativeButton(R.string.dialog_no,null)
-                .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        mDataManager.getDB().deleteScaned(record.getId(),record.getType());
-                        updateUI();
-                    }
-                })
-                .show();
+        SelectOperationDialog dialog = new SelectOperationDialog();
+        dialog.setSelectOperationListener(mSelectOperationListener);
+        dialog.show(getActivity().getFragmentManager(),"SO");
+
+
         return true;
     }
+
+    SelectOperationDialog.SelectOperationListener mSelectOperationListener = new SelectOperationDialog.SelectOperationListener() {
+        @Override
+        public void selectedItem(int id) {
+            if (id == R.id.del_laout) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Внимание !!!")
+                        .setMessage("Удаляем ? Вы уверены ?")
+                        .setNegativeButton(R.string.dialog_no,null)
+                        .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                mDataManager.getDB().deleteScaned(selectRecord.getId(),selectRecord.getType());
+                                updateUI();
+                            }
+                        })
+                        .show();
+            }
+            if (id == R.id.send_laout) {
+                if (selectRecord.getType() == ConstantManager.SCANNED_IN) {
+                    StoreFile storeFile = new StoreFile(getActivity());
+                    if (storeFile.storePrihod()) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("Внимание !!!")
+                                .setMessage("Созданые файлы сканирования прихода")
+                                .setPositiveButton(R.string.dialog_close, null)
+                                .show();
+                    }
+                }
+                if (selectRecord.getType() == ConstantManager.SCANNED_OUT) {
+                    StoreFile storeFile = new StoreFile(getActivity());
+                    if (storeFile.storeRashod()) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("Внимание !!!")
+                                .setMessage("Созданые файлы сканирования прихода")
+                                .setPositiveButton(R.string.dialog_close, null)
+                                .show();
+                    }
+
+                }
+            }
+        }
+    };
 }
