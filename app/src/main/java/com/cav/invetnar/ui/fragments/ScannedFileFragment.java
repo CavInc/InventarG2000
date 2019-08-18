@@ -108,6 +108,15 @@ public class ScannedFileFragment extends Fragment implements AdapterView.OnItemC
             return;
         }
 
+        if (model.getSkladFlg() != 0) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(R.string.dialog_title_warning)
+                    .setMessage("Создан документ.\n изменения запрещены")
+                    .setNegativeButton(R.string.dialog_close,null)
+                    .show();
+            return;
+        }
+
         if (model.getType() == ConstantManager.SCANNED_IN) {
             mDataManager.getPreManager().setCurrentNumIn(model.getId());
         }
