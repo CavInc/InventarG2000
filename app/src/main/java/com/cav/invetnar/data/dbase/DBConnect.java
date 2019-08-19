@@ -232,6 +232,7 @@ public class DBConnect {
         }
         if (scanned_type == ConstantManager.SCANNED_OUT) {
             database.delete(DBHelper.SCANNER_RASH,"scanned_id="+scanned_id,null);
+            database.delete(DBHelper.SKLAD,"id=? and doc_type=?",new String[]{String.valueOf(scanned_id),String.valueOf(scanned_type)});
         }
         close();
     }

@@ -17,6 +17,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String SCANNER_PRIH = "scanner_in";
     public static final String SCANNER_RASH = "scanner_out";
 
+
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
