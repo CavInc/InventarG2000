@@ -19,18 +19,22 @@ public class ChangeQuantityDialog extends DialogFragment implements View.OnClick
 
     private static final String CARD_NAME = "CARD_NAME";
     private static final String QUANTITY = "QUANTITY";
+    private static final String OLD_QUANTITY = "OLDQUANTITY";
     private ChangeQuantityDialogListner mDialogListner;
 
     private String cardName;
     private int quantity;
+    private int oldquantity;
 
     private TextView mCardName;
     private EditText mQuantity;
+    private TextView mOldQuantity;
 
-    public static ChangeQuantityDialog newInstance(String title,int quantity){
+    public static ChangeQuantityDialog newInstance(String title,int quantity,int oldquantity){
         Bundle args = new Bundle();
         args.putString(CARD_NAME,title);
         args.putInt(QUANTITY,quantity);
+        args.putInt(OLD_QUANTITY,oldquantity);
         ChangeQuantityDialog dialog = new ChangeQuantityDialog();
         dialog.setArguments(args);
         return dialog;
@@ -42,6 +46,7 @@ public class ChangeQuantityDialog extends DialogFragment implements View.OnClick
         if (getArguments() != null) {
             cardName = getArguments().getString(CARD_NAME);
             quantity = getArguments().getInt(QUANTITY);
+            oldquantity = getArguments().getInt(OLD_QUANTITY);
         }
     }
 
@@ -51,6 +56,7 @@ public class ChangeQuantityDialog extends DialogFragment implements View.OnClick
 
         mCardName = v.findViewById(R.id.cq_card_name);
         mQuantity = v.findViewById(R.id.cq_quantity);
+        mOldQuantity = v.findViewById(R.id.cq_old_quantity);
 
         v.findViewById(R.id.negative_button).setOnClickListener(this);
         v.findViewById(R.id.positiove_button).setOnClickListener(this);
@@ -59,8 +65,8 @@ public class ChangeQuantityDialog extends DialogFragment implements View.OnClick
             mCardName.setText(cardName);
         }
 
-        if (quantity != 0) {
-            mQuantity.setText(String.valueOf(quantity));
+        if (oldquantity != 0 ) {
+            mOldQuantity.setText("Старое значение : "+String.valueOf(oldquantity));
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -80,7 +86,15 @@ public class ChangeQuantityDialog extends DialogFragment implements View.OnClick
                 dismiss();
                 break;
             case R.id.positiove_button:
-                int q = Integer.valueOf(mQuantity.getText().toString());
+                int q;
+                if (mQuantity.getText().length() == 0) {
+                    q = 1;
+                } else {
+                    q = Integer.valueOf(mQuantity.getText().toString());
+                }
+                if (oldquantity != 0 ) {
+                    q = q + oldquantity;
+                }
                 if (mDialogListner != null) {
                     mDialogListner.onChangeQuantity(q);
                 }

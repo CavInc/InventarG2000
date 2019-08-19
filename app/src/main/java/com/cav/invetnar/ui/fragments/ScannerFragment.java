@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -44,7 +45,7 @@ import java.util.List;
  * Created by cav on 04.08.19.
  */
 
-public class ScannerFragment extends Fragment implements View.OnClickListener{
+public class ScannerFragment extends Fragment implements View.OnClickListener,AdapterView.OnItemLongClickListener{
     private static final String TAG = "SF";
     private DataManager mDataManager;
 
@@ -84,6 +85,7 @@ public class ScannerFragment extends Fragment implements View.OnClickListener{
         mBarcodeView = view.findViewById(R.id.barcode_scan_v);
 
         mListView = view.findViewById(R.id.scanned_lv);
+        mListView.setOnItemLongClickListener(this);
 
         mFrameLayout = view.findViewById(R.id.barcode_frame);
         mRescannBt = view.findViewById(R.id.rescan_bt);
@@ -302,11 +304,17 @@ public class ScannerFragment extends Fragment implements View.OnClickListener{
                 name = "Не найдено";
             }
 
+            int oldquantity = 0;
+            ScannedModel model = mDataManager.getDB().getItemRashod(currentScannedNum,code1c,type1c);
+            if (model != null) {
+                oldquantity = model.getQuantity();
+            }
+
             this.order = order;
             this.code1c = code1c;
             this.type1c = type1c;
 
-            ChangeQuantityDialog dialog = ChangeQuantityDialog.newInstance(name,1);
+            ChangeQuantityDialog dialog = ChangeQuantityDialog.newInstance(name,1,oldquantity);
             dialog.setDialogListner(mChangeQuantityDialogListner);
             dialog.show(getActivity().getFragmentManager(),"CQD");
            // mDataManager.getDB().addOutRecord(currentScannedNum,order,code1c,type1c,quantity);
@@ -334,5 +342,26 @@ public class ScannerFragment extends Fragment implements View.OnClickListener{
         if (view.getId() == R.id.rescan_bt) {
             startCamera();
         }
+    }
+
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+        if (scannedType == ConstantManager.SCANNED_OUT) {
+            ScannedModel model = (ScannedModel) adapterView.getItemAtPosition(position);
+            this.order = model.getOrderNum();
+            this.code1c = model.getCode1C();
+            this.type1c = model.getType1C();
+
+            String name = model.getCardName();
+            if (name == null) {
+                name = "Не найдено";
+            }
+
+            ChangeQuantityDialog dialog = ChangeQuantityDialog.newInstance(name,model.getQuantity(),0);
+            dialog.setDialogListner(mChangeQuantityDialogListner);
+            dialog.show(getActivity().getFragmentManager(),"CQD");
+        }
+        return true;
     }
 }

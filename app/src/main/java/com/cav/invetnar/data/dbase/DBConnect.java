@@ -165,6 +165,29 @@ public class DBConnect {
         return rec;
     }
 
+    // ищем позицию по коду (возвращается полный объект)
+    public ScannedModel getItemRashod(int currentScannedNum,int code1c,int type1c){
+        ScannedModel rec = null;
+        String sql = "select scanned_id,code1c,type1c,quantity,name_card from scanner_out sc\n" +
+                "  left join tovar tv on sc.code1c=tv.id1c\n" +
+                "where sc.scanned_id="+String.valueOf(currentScannedNum)+
+                " and code1c="+String.valueOf(code1c)+" and type1c="+String.valueOf(type1c);
+        open();
+        Cursor cursor = database.rawQuery(sql,null);
+        while (cursor.moveToNext()) {
+            rec = new ScannedModel(
+                    cursor.getInt(cursor.getColumnIndex("scanned_id")),
+                    cursor.getInt(cursor.getColumnIndex("quantity")),
+                    cursor.getInt(cursor.getColumnIndex("code1c")),
+                    cursor.getInt(cursor.getColumnIndex("type1c")),
+                    ConstantManager.SCANNED_OUT,
+                    cursor.getString(cursor.getColumnIndex("name_card"))
+            );
+        }
+        close();
+        return rec;
+    }
+
 
     // сохраняем данные о расходе
     public void addOutRecord(int currentScannedNum, int order, int code1c, int type1c, int quantity) {
