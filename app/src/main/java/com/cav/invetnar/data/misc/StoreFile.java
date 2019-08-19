@@ -27,12 +27,12 @@ public class StoreFile {
         mDataManager = DataManager.getInstance();
     }
 
-    public boolean storePrihod(){
+    public boolean storePrihod(int scannedid){
         boolean res = true;
         String[] header = new String[] {"Штрихкод"};
         String fName = "Сканирование_";
-        String fDate = Func.getDateToStr(new Date(),"dd_MM_yyyy_HH_MM");
-        ArrayList<Integer> data = mDataManager.getDB().getNoStorePrihod();
+        String fDate = Func.getDateToStr(new Date(),"dd_MM_yyyy_HH_mm");
+        ArrayList<Integer> data = mDataManager.getDB().getNoStorePrihod(scannedid);
         for (Integer l : data) {
             fName = fName+String.valueOf(l)+"_"+fDate+".xls";
             ArrayList<ScannedModel> scanned = mDataManager.getDB().getScannedPrixod(l, ConstantManager.SCANNED_IN);
@@ -46,13 +46,13 @@ public class StoreFile {
         return res;
     }
 
-    public boolean storeRashod(){
+    public boolean storeRashod(int scannedid){
         boolean res = true;
         String[] header = new String[] {"Код","Характеристика","Количество","Наименование"};
         String fName = "Отгрузка_";
-        String fDate = Func.getDateToStr(new Date(),"dd_MM_yyyy_HH_MM");
+        String fDate = Func.getDateToStr(new Date(),"dd_MM_yyyy_HH_mm");
         String outPath = mDataManager.getStorageAppPath();
-        ArrayList<Integer> data = mDataManager.getDB().getNoStoreRashod();
+        ArrayList<Integer> data = mDataManager.getDB().getNoStoreRashod(scannedid);
         for (Integer l : data) {
             fName = fName+String.valueOf(l)+"_"+fDate+".xls";
             ArrayList<ScannedModel> scanned = mDataManager.getDB().getScannedRashod(l);

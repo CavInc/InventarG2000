@@ -160,7 +160,7 @@ public class ScannedFileFragment extends Fragment implements AdapterView.OnItemC
             if (id == R.id.send_laout) {
                 if (selectRecord.getType() == ConstantManager.SCANNED_IN) {
                     StoreFile storeFile = new StoreFile(getActivity());
-                    if (storeFile.storePrihod()) {
+                    if (storeFile.storePrihod(selectRecord.getId())) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle("Внимание !!!")
                                 .setMessage("Созданые файлы сканирования прихода")
@@ -170,7 +170,7 @@ public class ScannedFileFragment extends Fragment implements AdapterView.OnItemC
                 }
                 if (selectRecord.getType() == ConstantManager.SCANNED_OUT) {
                     StoreFile storeFile = new StoreFile(getActivity());
-                    if (storeFile.storeRashod()) {
+                    if (storeFile.storeRashod(selectRecord.getId())) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle("Внимание !!!")
                                 .setMessage("Созданые файлы сканирования прихода")

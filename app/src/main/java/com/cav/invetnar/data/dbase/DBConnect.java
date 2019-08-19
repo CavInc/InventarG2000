@@ -299,18 +299,19 @@ public class DBConnect {
     // получить остатки
     public ArrayList<OstatokModel> getOstatok(){
         ArrayList<OstatokModel> rec = new ArrayList<>();
-        String sql = "select  sd.code1c,tr.name_card,\n" +
+        String sql = "select  sd.code1c,sd.type1c,tr.name_card,\n" +
                 "  sum( case\n" +
                 "      when sd.doc_type=0 then sd.quantity\n" +
                 "      when sd.doc_type=1 then -sd.quantity\n" +
                 "    end) as quantity from sklad sd\n" +
                 " left join tovar tr on sd.code1c=tr.id1c\n" +
-                " group by sd.code1c,tr.name_card";
+                " group by sd.code1c,sd.type1c,tr.name_card";
         open();
         Cursor cursor = database.rawQuery(sql,null);
         while (cursor.moveToNext()){
             rec.add(new OstatokModel(
                     cursor.getInt(cursor.getColumnIndex("code1c")),
+                    cursor.getInt(cursor.getColumnIndex("type1c")),
                     cursor.getString(cursor.getColumnIndex("name_card")),
                     cursor.getInt(cursor.getColumnIndex("quantity"))
             ));
@@ -355,11 +356,18 @@ public class DBConnect {
     }
 
     // получаем не выгруженные приходы
-    public ArrayList<Integer> getNoStorePrihod(){
+    public ArrayList<Integer> getNoStorePrihod(int scanendId){
         ArrayList<Integer> rec = new ArrayList<>();
-        String sql = "select scaned_id,count(1) from "+DBHelper.SCANNER_PRIH+"\n" +
-                "where store_flag = 0\n" +
-                "group by scaned_id";
+        String sql;
+        if (scanendId == -1) {
+            sql = "select scaned_id,count(1) from " + DBHelper.SCANNER_PRIH + "\n" +
+                    "where store_flag = 0\n" +
+                    "group by scaned_id";
+        } else {
+            sql = "select scaned_id,count(1) from " + DBHelper.SCANNER_PRIH + "\n" +
+                    "where scaned_id = "+scanendId+"\n" +
+                    "group by scaned_id";
+        }
         open();
         Cursor cursor = database.rawQuery(sql,null);
         while (cursor.moveToNext()) {
@@ -370,11 +378,18 @@ public class DBConnect {
     }
 
     // получаем не выгруженные расходы
-    public ArrayList<Integer> getNoStoreRashod(){
+    public ArrayList<Integer> getNoStoreRashod(int scannedId){
         ArrayList<Integer> rec = new ArrayList<>();
-        String sql = "select scanned_id,count(1) from "+DBHelper.SCANNER_RASH+"\n" +
-                "where store_flag = 0\n" +
-                "group by scanned_id";
+        String sql;
+        if (scannedId == -1) {
+            sql = "select scanned_id,count(1) from " + DBHelper.SCANNER_RASH + "\n" +
+                    "where store_flag = 0\n" +
+                    "group by scanned_id";
+        } else {
+            sql = "select scanned_id,count(1) from " + DBHelper.SCANNER_RASH + "\n" +
+                    "where scanned_id = "+scannedId+"\n" +
+                    "group by scanned_id";
+        }
         open();
         Cursor cursor = database.rawQuery(sql,null);
         while (cursor.moveToNext()) {

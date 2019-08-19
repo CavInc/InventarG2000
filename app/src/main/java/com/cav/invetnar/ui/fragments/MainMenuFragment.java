@@ -93,9 +93,9 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
     }
 
     private void storeOstatok() {
-        String[] header = new String[] {"Код","Наименование","Количество"};
+        String[] header = new String[] {"Код","Характеристика","Наименование","Количество"};
         String fName = "Остаток_";
-        String fDate = Func.getDateToStr(new Date(),"dd_MM_yyyy_HH_MM");
+        String fDate = Func.getDateToStr(new Date(),"dd_MM_yyyy_HH_mm");
         fName = fName+fDate+".xls";
         String outPath = mDataManager.getStorageAppPath();
         ArrayList<OstatokModel> data = mDataManager.getDB().getOstatok();
@@ -103,6 +103,7 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
         for (OstatokModel l : data) {
             ArrayList<Object> xt = new ArrayList<>();
             xt.add(l.getCode1c());
+            xt.add(l.getType1c());
             xt.add(l.getName());
             xt.add(l.getQuantity());
             outData.add(xt);
@@ -118,7 +119,7 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
 
     private void storeRashod() {
         StoreFile storeFile = new StoreFile(getActivity());
-        if (storeFile.storeRashod()) {
+        if (storeFile.storeRashod(-1)) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle("Внимание !!!")
                     .setMessage("Созданые файлы сканирования расхода")
@@ -130,7 +131,7 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
     // сохраняем все приходы в файлы (у который не стоит файла выгрузки)
     private void storePrihodAll() {
         StoreFile storeFile = new StoreFile(getActivity());
-        if (storeFile.storePrihod()) {
+        if (storeFile.storePrihod(-1)) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle("Внимание !!!")
                     .setMessage("Созданые файлы сканирования прихода")
