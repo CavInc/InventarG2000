@@ -33,6 +33,7 @@ import com.cav.invetnar.ui.dialogs.ChangeQuantityDialog;
 import com.cav.invetnar.ui.dialogs.SelectOperationDialog;
 import com.cav.invetnar.utils.ConstantManager;
 import com.cav.invetnar.utils.Func;
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.ResultPoint;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
@@ -265,6 +266,7 @@ public class ScannerFragment extends Fragment implements View.OnClickListener,Ad
         @Override
         public void barcodeResult(BarcodeResult result) {
             if (result.getText() != null) {
+                if (BarcodeFormat.QR_CODE !=  result.getBarcodeFormat()) return;
                 mBarCode.setText(result.getText());
                 //mStartScan.setVisibility(View.VISIBLE);
                 Func.playMessage(getActivity());
