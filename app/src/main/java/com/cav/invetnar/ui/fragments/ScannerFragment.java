@@ -30,6 +30,7 @@ import com.cav.invetnar.data.managers.DataManager;
 import com.cav.invetnar.data.models.ScannedModel;
 import com.cav.invetnar.ui.adapters.ScannedAdapter;
 import com.cav.invetnar.ui.dialogs.ChangeQuantityDialog;
+import com.cav.invetnar.ui.dialogs.SelectOperationDialog;
 import com.cav.invetnar.utils.ConstantManager;
 import com.cav.invetnar.utils.Func;
 import com.google.zxing.ResultPoint;
@@ -65,6 +66,7 @@ public class ScannerFragment extends Fragment implements View.OnClickListener,Ad
     private int currentScannedNum;
 
     private Button mRescannBt;
+    private ScannedModel selectModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -347,21 +349,58 @@ public class ScannerFragment extends Fragment implements View.OnClickListener,Ad
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+        selectModel = (ScannedModel) adapterView.getItemAtPosition(position);
+        if (scannedType == ConstantManager.SCANNED_IN) {
+            deleteRecord(selectModel,ConstantManager.SCANNED_IN);
+        }
         if (scannedType == ConstantManager.SCANNED_OUT) {
-            ScannedModel model = (ScannedModel) adapterView.getItemAtPosition(position);
-            this.order = model.getOrderNum();
-            this.code1c = model.getCode1C();
-            this.type1c = model.getType1C();
-
-            String name = model.getCardName();
-            if (name == null) {
-                name = "Не найдено";
-            }
-
-            ChangeQuantityDialog dialog = ChangeQuantityDialog.newInstance(name,model.getQuantity(),0);
-            dialog.setDialogListner(mChangeQuantityDialogListner);
-            dialog.show(getActivity().getFragmentManager(),"CQD");
+            SelectOperationDialog dialog = SelectOperationDialog.newInstance(1);
+            dialog.setSelectOperationListener(mOperationListener);
+            dialog.show(getActivity().getFragmentManager(),"SOD");
         }
         return true;
     }
+
+    private void deleteRecord(final ScannedModel model, final int mode) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.dialog_title_warning)
+                .setMessage("Удаляем ? \nВы уверены ?")
+                .setNegativeButton(R.string.dialog_no,null)
+                .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (mode == ConstantManager.SCANNED_IN) {
+                            mDataManager.getDB().deleteItemPrixod(currentScannedNum, model.getOrderNum(), model.getPos(), model.getCode1C());
+                        }
+                        if (mode == ConstantManager.SCANNED_OUT) {
+                            mDataManager.getDB().deleteItemRashod(currentScannedNum,model.getCode1C(),model.getType1C());
+                        }
+                        updateUI();
+                    }
+                })
+                .show();
+    }
+
+    SelectOperationDialog.SelectOperationListener mOperationListener = new SelectOperationDialog.SelectOperationListener() {
+        @Override
+        public void selectedItem(int id) {
+            if (id == R.id.edit_layout) {
+                order = selectModel.getOrderNum();
+                code1c = selectModel.getCode1C();
+                type1c = selectModel.getType1C();
+
+                String name = selectModel.getCardName();
+                if (name == null) {
+                    name = "Не найдено";
+                }
+
+                ChangeQuantityDialog dialog = ChangeQuantityDialog.newInstance(name, selectModel.getQuantity(),0);
+                dialog.setDialogListner(mChangeQuantityDialogListner);
+                dialog.show(getActivity().getFragmentManager(),"CQD");
+            }
+            if (id == R.id.del_laout) {
+                deleteRecord(selectModel,ConstantManager.SCANNED_OUT);
+            }
+        }
+    };
 }

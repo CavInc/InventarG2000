@@ -351,10 +351,28 @@ public class DBConnect {
         close();
     }
 
+    // удаляем элемент
+    public void deleteItemPrixod(int scaned_id,int order_num,int position,int code1c){
+        open();
+        database.delete(DBHelper.SCANNER_PRIH,
+                "scaned_id=? and order_num=?  and position=? and code1c=?",
+                new String[]{String.valueOf(scaned_id),String.valueOf(order_num),String.valueOf(position),String.valueOf(code1c)});
+        close();
+    }
+
     // удаляем расходы
     public void deleteRashod(){
         open();
         database.delete(DBHelper.SCANNER_RASH,null,null);
+        close();
+    }
+
+    // удаляем элемент расход
+    public void deleteItemRashod(int scanned_id,int code1c,int type1c){
+        open();
+        database.delete(DBHelper.SCANNER_RASH,
+                "scanned_id =? and code1c=? and type1c=?",
+                new String[]{String.valueOf(scanned_id),String.valueOf(code1c),String.valueOf(type1c)});
         close();
     }
 
