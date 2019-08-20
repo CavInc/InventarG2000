@@ -284,6 +284,7 @@ public class ScannerFragment extends Fragment implements View.OnClickListener,Ad
         if (mBar.length() == 0) return true;
         Log.d(TAG,mBar);
         String[] sm = mBar.split(";");
+        if (sm.length <= 1) return true;
         int order = Integer.valueOf(sm[0]);
         int countOrder = Integer.valueOf(sm[1]); // заказано в наряде
         int quantity = Integer.valueOf(sm[2]);
