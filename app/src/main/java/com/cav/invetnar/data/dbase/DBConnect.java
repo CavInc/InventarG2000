@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.system.Os;
 
 import com.cav.invetnar.data.models.NomenclatureModel;
 import com.cav.invetnar.data.models.OstatokModel;
@@ -287,11 +288,7 @@ public class DBConnect {
                 "order by sanner_date,id  ";
 
         Cursor cursor = database.rawQuery(sql,null);
-        /*
-        Cursor cursor = database.query(DBHelper.SKLAD,
-                new String[]{"id","sanner_date","doc_type","code1c","type1c","quantity"},
-                null,null,null,null,"sanner_date,id");
-               */
+
         while (cursor.moveToNext()) {
             rec.add(new SkladModel(
                     cursor.getInt(cursor.getColumnIndex("id")),
@@ -306,6 +303,38 @@ public class DBConnect {
         close();
         return rec;
     }
+
+    // получаем последний документ
+    public int getLastIdSklad(){
+        int ret = 0;
+        String sql = "select  coalesce(max(id)+1,0)  as ci from "+DBHelper.SKLAD+"\n" +
+                "where doc_type=2";
+        open();
+        Cursor cursor = database.rawQuery(sql,null);
+        while (cursor.moveToNext()){
+            ret = cursor.getInt(0);
+        }
+        close();
+        return ret;
+    }
+
+    // добавляем документ остатков в склад
+    public void addDocumentOstatok(int id, String date, ArrayList<OstatokModel> data){
+        open();
+        ContentValues values = new ContentValues();
+        for (OstatokModel l : data){
+            values.clear();
+            values.put("id",id);
+            values.put("sanner_date",date);
+            values.put("doc_type",2);
+            values.put("code1c",l.getCode1c());
+            values.put("type1c",l.getType1c());
+            values.put("quantity",l.getQuantity());
+            database.insert(DBHelper.SKLAD,null,values);
+        }
+        close();
+    }
+
 
     public void addTovar(int code, String name)  {
         open();
@@ -326,6 +355,7 @@ public class DBConnect {
         String sql = "select  sd.code1c,sd.type1c,tr.name_card,\n" +
                 "  sum( case\n" +
                 "      when sd.doc_type=0 then sd.quantity\n" +
+                "      when sd.doc_type=2 then sd.quantity\n" +
                 "      when sd.doc_type=1 then -sd.quantity\n" +
                 "    end) as quantity from sklad sd\n" +
                 " left join tovar tr on sd.code1c=tr.id1c\n" +

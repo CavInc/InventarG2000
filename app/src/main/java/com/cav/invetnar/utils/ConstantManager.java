@@ -7,6 +7,7 @@ package com.cav.invetnar.utils;
 public interface ConstantManager {
     int SCANNED_IN = 0;
     int SCANNED_OUT = 1;
+    int OSTATOK_IN = 2;
 
     int RET_OK = 200;
     int RET_ERROR = 201;

@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import com.cav.invetnar.R;
 import com.cav.invetnar.data.managers.DataManager;
 import com.cav.invetnar.ui.fragments.MainMenuFragment;
+import com.cav.invetnar.utils.LoadXLSFile;
 import com.cav.invetnar.utils.WorkInFile;
 
 import java.io.File;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_STORAGE = 457;
     private static final int REQUEST_OPEN_DOCUMENT = 832;
     private static final String TAG = "MA";
+    private static final int REQUEST_OPEN_OSTATOK_DOCUMENT = 834;
 
     private DataManager mDataManager;
 
@@ -102,6 +104,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }).show();
         }
+        if (item.getItemId() == R.id.main_menu_load_ostatok) {
+            loadOstatokFile();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -140,7 +145,36 @@ public class MainActivity extends AppCompatActivity {
         intent.setType("text/plain");
         //startActivityForResult(intent,REQUEST_OPEN_DOCUMENT);
 
-        startActivityForResult(Intent.createChooser(intent,"Выбор каталога"),REQUEST_OPEN_DOCUMENT);
+        startActivityForResult(Intent.createChooser(intent,"Выбор файла"),REQUEST_OPEN_DOCUMENT);
+    }
+
+    // открываем файл остатка
+    private void loadOstatokFile(){
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        String[] supportedMimeTypes =   {"application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .doc & .docx
+        "application/vnd.ms-powerpoint","application/vnd.openxmlformats-officedocument.presentationml.presentation", // .ppt & .pptx
+                "application/vnd.ms-excel","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xls & .xlsx
+                "text/plain",
+                "application/pdf",
+                "application/zip"};
+
+        //intent.putExtra(Intent.EXTRA_MIME_TYPES, supportedMimeTypes);
+        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        //     intent.setType(mimeTypes.length == 1 ? mimeTypes[0] : "*/*");
+        //      if (mimeTypes.length > 0) {
+        //         intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+        //      }
+        //} else {
+        //     String mimeTypesStr = "";
+        //     for (String mimeType : mimeTypes) {
+        //          mimeTypesStr += mimeType + "|";
+       //      }
+       //      intent.setType(mimeTypesStr.substring(0,mimeTypesStr.length() - 1));
+       // }
+
+        startActivityForResult(Intent.createChooser(intent,"Выбор файла"),REQUEST_OPEN_OSTATOK_DOCUMENT);
     }
 
     @Override
@@ -153,6 +187,15 @@ public class MainActivity extends AppCompatActivity {
                 WorkInFile workInFile = new WorkInFile(mDataManager.getPreManager().getCodeFile());
                 int ret_flg = workInFile.loadProductFile(fname.getName(),mDataManager);
 
+            }
+        }
+        if (requestCode == REQUEST_OPEN_OSTATOK_DOCUMENT && resultCode == RESULT_OK) {
+            if (data != null) {
+                Uri uri = data.getData();
+                System.out.println(uri);
+                File fname = copyUriToLocal(uri);
+                LoadXLSFile loadXLSFile = new LoadXLSFile(fname);
+                loadXLSFile.load(mDataManager);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

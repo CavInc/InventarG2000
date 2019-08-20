@@ -42,7 +42,7 @@ public class DBHelper extends SQLiteOpenHelper {
             db.execSQL("create table "+SKLAD+" (" +
                     "id integer not null," +
                     "sanner_date text," +
-                    "doc_type integer default 0, " + // 0 - приход 1 - расход
+                    "doc_type integer default 0, " + // 0 - приход 1 - расход 3 - начальный остаток
                     "code1c integer," +
                     "type1c integer," +
                     "quantity integer default 1)");

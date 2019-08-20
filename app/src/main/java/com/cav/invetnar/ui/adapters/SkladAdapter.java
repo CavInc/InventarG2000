@@ -66,6 +66,9 @@ public class SkladAdapter extends ArrayAdapter<SkladModel> {
         } else if (record.getType() == ConstantManager.SCANNED_OUT) {
             holder.mDocType.setText("расход");
             holder.mDocType.setTextColor(Color.RED);
+        } else if (record.getType() == ConstantManager.OSTATOK_IN) {
+            holder.mDocType.setText("начальный остаток");
+            holder.mDocType.setTextColor(Color.BLUE);
         }
         holder.mScanedDate.setText(Func.getDateToStr(record.getDate(),"dd.MM.yyyy HH:mm"));
         if (record.getCardName() == null) {

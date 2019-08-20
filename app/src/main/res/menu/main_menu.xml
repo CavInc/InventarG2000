@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:enabled="true"
+        android:visible="true">
+        <item
+            android:id="@+id/main_menu_load"
+            android:title="Загрузка справочника" />
+        <item
+            android:id="@+id/main_menu_tovar"
+            android:title="Справочник номенклатуры" />
+    </group>
     <item
-        android:id="@+id/main_menu_load"
-        android:title="Загрузка справочника"/>
-    <item
-        android:id="@+id/main_menu_tovar"
-        android:title="Справочник номенклатуры"/>
+        android:id="@+id/main_menu_load_ostatok"
+        android:title="Загрузка остатков"/>
+
     <item
         android:id="@+id/main_setting"
         android:title="Настройки"/>
