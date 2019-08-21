@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewFragment(new MainMenuFragment(),"MM");
 
+        /*
         Calendar c = Calendar.getInstance();
         c.set(2019,7,30);
         Date ls = c.getTime();
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                     .create();
             dialog.show();
         }
+        */
     }
 
     @Override
@@ -156,11 +158,9 @@ public class MainActivity extends AppCompatActivity {
         String[] supportedMimeTypes =   {"application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .doc & .docx
         "application/vnd.ms-powerpoint","application/vnd.openxmlformats-officedocument.presentationml.presentation", // .ppt & .pptx
                 "application/vnd.ms-excel","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xls & .xlsx
-                "text/plain",
-                "application/pdf",
-                "application/zip"};
+                 };
 
-        //intent.putExtra(Intent.EXTRA_MIME_TYPES, supportedMimeTypes);
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, supportedMimeTypes);
         //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
         //     intent.setType(mimeTypes.length == 1 ? mimeTypes[0] : "*/*");
         //      if (mimeTypes.length > 0) {
