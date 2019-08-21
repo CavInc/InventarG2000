@@ -52,27 +52,6 @@ public class MainActivity extends AppCompatActivity {
         mDataManager = DataManager.getInstance();
 
         viewFragment(new MainMenuFragment(),"MM");
-
-        /*
-        Calendar c = Calendar.getInstance();
-        c.set(2019,7,30);
-        Date ls = c.getTime();
-        Date currentDate = new Date();
-        if (currentDate.getTime() > ls.getTime()) {
-            Log.d(TAG,"YES DATE");
-            AlertDialog.Builder dialog =  new AlertDialog.Builder(this);
-            dialog.setTitle(R.string.app_name)
-                    .setMessage("Завершение работы демоверсии")
-                    .setPositiveButton("Закрыть", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            finish();
-                        }
-                    })
-                    .create();
-            dialog.show();
-        }
-        */
     }
 
     @Override

@@ -130,9 +130,6 @@ public class StoreXLSFile {
                 }
                 offset_x = 0;
             }
-            /*
-            sheet.addCell(new Label(offset_x,offset_y,l,times11format));
-            */
             offset_y +=1;
         }
 
