@@ -79,8 +79,8 @@ public class DBConnect {
         open();
         String sql = "select scaned_id,order_num,position,quantity,code1c,type1c,owner_name,name_card from scanner_in sc\n" +
                 "  left join tovar tv on sc.code1c=tv.id1c\n" +
-                "where sc.scaned_id="+String.valueOf(scannedId)+"" +
-                "order by sc.scanned_data";
+                "where sc.scaned_id="+String.valueOf(scannedId)+"\n" +
+                "order by sc.scanned_data desc";
 
         /*
         Cursor cursor = database.query(DBHelper.SCANNER_PRIH,
@@ -111,8 +111,8 @@ public class DBConnect {
         ArrayList<ScannedModel> rec = new ArrayList<>();
         String sql = "select scanned_id,code1c,type1c,quantity,name_card from scanner_out sc\n" +
                 "  left join tovar tv on sc.code1c=tv.id1c\n" +
-                "where sc.scanned_id="+String.valueOf(scannedId)+"" +
-                "order by sc.scanned_data";
+                "where sc.scanned_id="+String.valueOf(scannedId)+"\n" +
+                "order by sc.scanned_data desc";
         open();
         Cursor cursor = database.rawQuery(sql,null);
         while (cursor.moveToNext()) {
