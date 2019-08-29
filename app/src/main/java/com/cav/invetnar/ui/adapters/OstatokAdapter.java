@@ -40,6 +40,7 @@ public class OstatokAdapter extends ArrayAdapter<OstatokModel> {
 
             holder.mName = row.findViewById(R.id.ostatok_name);
             holder.mQuantity = row.findViewById(R.id.ostatok_quantity);
+            holder.mPosXar = row.findViewById(R.id.ostatok_xar);
 
             row.setTag(holder);
         }else{
@@ -53,6 +54,7 @@ public class OstatokAdapter extends ArrayAdapter<OstatokModel> {
             holder.mName.setText(record.getName());
         }
         holder.mQuantity.setText(String.valueOf(record.getQuantity()));
+        holder.mPosXar.setText("Код : "+record.getCode1c()+" Хар. : "+record.getType1c());
 
         return row;
     }
@@ -60,5 +62,6 @@ public class OstatokAdapter extends ArrayAdapter<OstatokModel> {
     private class ViewHolder {
         public TextView mName;
         public TextView mQuantity;
+        public TextView mPosXar;
     }
 }
