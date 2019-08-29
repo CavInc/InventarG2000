@@ -79,7 +79,8 @@ public class DBConnect {
         open();
         String sql = "select scaned_id,order_num,position,quantity,code1c,type1c,owner_name,name_card from scanner_in sc\n" +
                 "  left join tovar tv on sc.code1c=tv.id1c\n" +
-                "where sc.scaned_id="+String.valueOf(scannedId);
+                "where sc.scaned_id="+String.valueOf(scannedId)+"" +
+                "order by sc.scanned_data";
 
         /*
         Cursor cursor = database.query(DBHelper.SCANNER_PRIH,
@@ -110,7 +111,8 @@ public class DBConnect {
         ArrayList<ScannedModel> rec = new ArrayList<>();
         String sql = "select scanned_id,code1c,type1c,quantity,name_card from scanner_out sc\n" +
                 "  left join tovar tv on sc.code1c=tv.id1c\n" +
-                "where sc.scanned_id="+String.valueOf(scannedId);
+                "where sc.scanned_id="+String.valueOf(scannedId)+"" +
+                "order by sc.scanned_data";
         open();
         Cursor cursor = database.rawQuery(sql,null);
         while (cursor.moveToNext()) {
@@ -129,6 +131,7 @@ public class DBConnect {
 
     // добавляем запись в таблицу прихода
     public void addInRecord(int currentScannedNum, int order, int countOrder, int quantity, int code1c, int type1c, String ownwer){
+        String date = Func.getDateToStr(new Date(),"yyyy-MM-dd HH:mm");
         open();
         ContentValues values = new ContentValues();
         values.put("scaned_id",currentScannedNum);
@@ -137,6 +140,7 @@ public class DBConnect {
         values.put("quantity",quantity);
         values.put("code1c",code1c);
         values.put("type1c",type1c);
+        values.put("scanned_data",date);
         values.put("owner_name",ownwer);
         database.insertWithOnConflict(DBHelper.SCANNER_PRIH,null,values,SQLiteDatabase.CONFLICT_REPLACE);
         close();
@@ -192,12 +196,14 @@ public class DBConnect {
 
     // сохраняем данные о расходе
     public void addOutRecord(int currentScannedNum, int order, int code1c, int type1c, int quantity) {
+        String date = Func.getDateToStr(new Date(),"yyyy-MM-dd HH:mm");
         open();
         ContentValues values = new ContentValues();
         values.put("scanned_id",currentScannedNum);
         values.put("quantity",quantity);
         values.put("code1c",code1c);
         values.put("type1c",type1c);
+        values.put("scanned_data",date);
         database.insertWithOnConflict(DBHelper.SCANNER_RASH,null,values,SQLiteDatabase.CONFLICT_REPLACE);
         close();
     }
