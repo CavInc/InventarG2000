@@ -123,6 +123,9 @@ public class ScannerFragment extends Fragment implements View.OnClickListener,Ad
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Сканирование");
         setTools();
 
+        // возвращаем фокус на место
+        mListView.setOnFocusChangeListener(mOnFocusChangeListener);
+
         return view;
     }
 
@@ -285,7 +288,10 @@ public class ScannerFragment extends Fragment implements View.OnClickListener,Ad
         mBar = textView.getText().toString();
         if (mBar.length() == 0) return true;
         String[] sm = mBar.split(";");
-        if (sm.length <= 1) return true;
+        if (sm.length <= 1) {
+            mBarCode.requestFocus();
+            return true;
+        }
 
         try {
             int order = Integer.valueOf(sm[0]);
@@ -335,7 +341,9 @@ public class ScannerFragment extends Fragment implements View.OnClickListener,Ad
             return true;
         } finally {
             mBarCode.setText("");
+            //mBarCode.requestFocus();
         }
+        //mBarCode.requestFocus();
         return false;
     }
 
@@ -413,6 +421,14 @@ public class ScannerFragment extends Fragment implements View.OnClickListener,Ad
             if (id == R.id.del_laout) {
                 deleteRecord(selectModel,ConstantManager.SCANNED_OUT);
             }
+        }
+    };
+
+    View.OnFocusChangeListener mOnFocusChangeListener = new View.OnFocusChangeListener() {
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            mBarCode.requestFocus();
         }
     };
 }

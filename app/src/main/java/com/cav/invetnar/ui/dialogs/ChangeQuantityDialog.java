@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -69,6 +71,8 @@ public class ChangeQuantityDialog extends DialogFragment implements View.OnClick
             mOldQuantity.setText("Старое значение : "+String.valueOf(oldquantity));
         }
 
+        mQuantity.setOnEditorActionListener(mEditorActionListener);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Изменить количество").setView(v);
 
@@ -86,22 +90,41 @@ public class ChangeQuantityDialog extends DialogFragment implements View.OnClick
                 dismiss();
                 break;
             case R.id.positiove_button:
-                int q;
-                if (mQuantity.getText().length() == 0) {
-                    q = 1;
-                } else {
-                    q = Integer.valueOf(mQuantity.getText().toString());
-                }
-                if (oldquantity != 0 ) {
-                    q = q + oldquantity;
-                }
-                if (mDialogListner != null) {
-                    mDialogListner.onChangeQuantity(q);
-                }
+                storeQuantiy();
                 dismiss();
                 break;
         }
     }
+
+    private void storeQuantiy (){
+        int q;
+        if (mQuantity.getText().length() == 0) {
+            q = 1;
+        } else {
+            q = Integer.valueOf(mQuantity.getText().toString());
+        }
+        if (oldquantity != 0 ) {
+            q = q + oldquantity;
+        }
+        if (mDialogListner != null) {
+            mDialogListner.onChangeQuantity(q);
+        }
+    }
+
+    TextView.OnEditorActionListener mEditorActionListener = new TextView.OnEditorActionListener() {
+
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent keyEvent) {
+            if (actionId == EditorInfo.IME_ACTION_DONE  || (keyEvent.getAction() == KeyEvent.ACTION_DOWN &&
+                    keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER
+                    && keyEvent.getRepeatCount() == 0)) {
+                storeQuantiy();
+                dismiss();
+                return true;
+            }
+            return false;
+        }
+    };
 
     public interface ChangeQuantityDialogListner {
         void onChangeQuantity(int quantity);
