@@ -284,49 +284,58 @@ public class ScannerFragment extends Fragment implements View.OnClickListener,Ad
     private boolean workingBarcode(TextView textView) {
         mBar = textView.getText().toString();
         if (mBar.length() == 0) return true;
-        Log.d(TAG,mBar);
         String[] sm = mBar.split(";");
         if (sm.length <= 1) return true;
-        int order = Integer.valueOf(sm[0]);
-        int countOrder = Integer.valueOf(sm[1]); // заказано в наряде
-        int quantity = Integer.valueOf(sm[2]);
-        int code1c = Integer.valueOf(sm[3]);
-        int type1c = Integer.valueOf(sm[4]);
-        String ownwer = sm[5];
 
-        // тут поиск названия
+        try {
+            int order = Integer.valueOf(sm[0]);
+            int countOrder = Integer.valueOf(sm[1]); // заказано в наряде
+            int quantity = Integer.valueOf(sm[2]);
+            int code1c = Integer.valueOf(sm[3]);
+            int type1c = Integer.valueOf(sm[4]);
+            String ownwer = sm[5];
 
-        if (scannedType == ConstantManager.SCANNED_IN) {
-            // записываем приход
-            mDataManager.getDB().addInRecord(currentScannedNum,order,countOrder,quantity,code1c,type1c,ownwer);
-            updateUI();
-        }
+            // тут поиск названия
 
-        if (scannedType == ConstantManager.SCANNED_OUT) {
-            // записываем расход с запросом количества
-            String name = mDataManager.getDB().getTovarName(code1c);
-            if (name == null) {
-                name = "Не найдено";
+            if (scannedType == ConstantManager.SCANNED_IN) {
+                // записываем приход
+                mDataManager.getDB().addInRecord(currentScannedNum, order, countOrder, quantity, code1c, type1c, ownwer);
+                updateUI();
             }
 
-            int oldquantity = 0;
-            ScannedModel model = mDataManager.getDB().getItemRashod(currentScannedNum,code1c,type1c);
-            if (model != null) {
-                oldquantity = model.getQuantity();
+            if (scannedType == ConstantManager.SCANNED_OUT) {
+                // записываем расход с запросом количества
+                String name = mDataManager.getDB().getTovarName(code1c);
+                if (name == null) {
+                    name = "Не найдено";
+                }
+
+                int oldquantity = 0;
+                ScannedModel model = mDataManager.getDB().getItemRashod(currentScannedNum, code1c, type1c);
+                if (model != null) {
+                    oldquantity = model.getQuantity();
+                }
+
+                this.order = order;
+                this.code1c = code1c;
+                this.type1c = type1c;
+
+                ChangeQuantityDialog dialog = ChangeQuantityDialog.newInstance(name, 1, oldquantity);
+                dialog.setDialogListner(mChangeQuantityDialogListner);
+                dialog.show(getActivity().getFragmentManager(), "CQD");
+                // mDataManager.getDB().addOutRecord(currentScannedNum,order,code1c,type1c,quantity);
+                // updateUI();
             }
-
-            this.order = order;
-            this.code1c = code1c;
-            this.type1c = type1c;
-
-            ChangeQuantityDialog dialog = ChangeQuantityDialog.newInstance(name,1,oldquantity);
-            dialog.setDialogListner(mChangeQuantityDialogListner);
-            dialog.show(getActivity().getFragmentManager(),"CQD");
-           // mDataManager.getDB().addOutRecord(currentScannedNum,order,code1c,type1c,quantity);
-           // updateUI();
+        } catch (Exception e) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(R.string.dialog_title_warning)
+                    .setMessage("Не верный формат данных штрихкода : ("+mBar+")")
+                    .setNegativeButton(R.string.dialog_close,null)
+                    .show();
+            return true;
+        } finally {
+            mBarCode.setText("");
         }
-
-        mBarCode.setText("");
         return false;
     }
 
