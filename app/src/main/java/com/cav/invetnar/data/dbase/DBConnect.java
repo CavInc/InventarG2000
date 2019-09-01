@@ -131,7 +131,7 @@ public class DBConnect {
 
     // добавляем запись в таблицу прихода
     public void addInRecord(int currentScannedNum, int order, int countOrder, int quantity, int code1c, int type1c, String ownwer){
-        String date = Func.getDateToStr(new Date(),"yyyy-MM-dd HH:mm");
+        String date = Func.getDateToStr(new Date(),"yyyy-MM-dd HH:mm:ss");
         open();
         ContentValues values = new ContentValues();
         values.put("scaned_id",currentScannedNum);
@@ -196,7 +196,7 @@ public class DBConnect {
 
     // сохраняем данные о расходе
     public void addOutRecord(int currentScannedNum, int order, int code1c, int type1c, int quantity) {
-        String date = Func.getDateToStr(new Date(),"yyyy-MM-dd HH:mm");
+        String date = Func.getDateToStr(new Date(),"yyyy-MM-dd HH:mm:ss");
         open();
         ContentValues values = new ContentValues();
         values.put("scanned_id",currentScannedNum);
