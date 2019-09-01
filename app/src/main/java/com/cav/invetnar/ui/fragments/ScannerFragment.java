@@ -330,8 +330,15 @@ public class ScannerFragment extends Fragment implements View.OnClickListener,Ad
                 ChangeQuantityDialog dialog = ChangeQuantityDialog.newInstance(name, 1, oldquantity);
                 dialog.setDialogListner(mChangeQuantityDialogListner);
                 dialog.show(getActivity().getFragmentManager(), "CQD");
+
                 */
-                quantity = 1;
+
+                ScannedModel model = mDataManager.getDB().getItemRashod(currentScannedNum, code1c, type1c);
+                if (model != null) {
+                    quantity = model.getQuantity() + 1;
+                } else {
+                    quantity = 1;
+                }
                 mDataManager.getDB().addOutRecord(currentScannedNum,order,code1c,type1c,quantity);
                 updateUI();
 
