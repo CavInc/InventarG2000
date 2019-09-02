@@ -425,7 +425,13 @@ public class ScannerFragment extends Fragment implements View.OnClickListener,Ad
                     name = "Не найдено";
                 }
 
-                ChangeQuantityDialog dialog = ChangeQuantityDialog.newInstance(name, selectModel.getQuantity(),0);
+                int oldquantity = 0;
+                ScannedModel model = mDataManager.getDB().getItemRashod(currentScannedNum, code1c, type1c);
+                if (model != null) {
+                    oldquantity = model.getQuantity();
+                }
+
+                ChangeQuantityDialog dialog = ChangeQuantityDialog.newInstance(name, selectModel.getQuantity(),oldquantity);
                 dialog.setDialogListner(mChangeQuantityDialogListner);
                 dialog.show(getActivity().getFragmentManager(),"CQD");
             }
